@@ -1,3 +1,12 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = "Portfolio | Dark Minimalist Design", description = "A dark-themed minimalist portfolio with blue accents creating a dramatic, immersive experience." } = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -5,18 +14,108 @@
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={description} />
+		
+		<!-- Open Graph / Social Media Meta Tags -->
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://yourportfolio.com" />
+		<meta property="og:image" content="/social-preview.jpg" />
+		
+		<!-- Google Fonts: Montserrat (Light, Regular) and Roboto -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+		
+		<title>{title}</title>
 	</head>
 	<body>
 		<slot />
+		<!-- Cursor Effect Div -->
+		<div class="cursor-dot-outline"></div>
+		<div class="cursor-dot"></div>
 	</body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+<style is:global>
+	@import "../styles/global.css";
+
+	/* Custom Cursor Effect */
+	.cursor-dot, .cursor-dot-outline {
+		pointer-events: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		border-radius: 50%;
+		opacity: 0;
+		transform: translate(-50%, -50%);
+		transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out;
+		z-index: 999;
+	}
+
+	.cursor-dot {
+		width: 8px;
+		height: 8px;
+		background-color: var(--color-accent);
+	}
+
+	.cursor-dot-outline {
+		width: 40px;
+		height: 40px;
+		background-color: rgba(58, 134, 255, 0.1);
+		border: 1px solid var(--color-accent);
+	}
+
+	@media (max-width: 768px) {
+		.cursor-dot, .cursor-dot-outline {
+			display: none;
+		}
 	}
 </style>
+
+<script>
+	// Custom cursor effect
+	document.addEventListener('DOMContentLoaded', () => {
+		const cursorDot = document.querySelector('.cursor-dot');
+		const cursorOutline = document.querySelector('.cursor-dot-outline');
+		
+		if (cursorDot && cursorOutline && window.innerWidth > 768) {
+			// Show cursors when mouse moves
+			window.addEventListener('mousemove', (e) => {
+				cursorDot.style.opacity = '1';
+				cursorOutline.style.opacity = '1';
+				
+				// Smooth follow of cursor
+				window.requestAnimationFrame(() => {
+					cursorDot.style.left = `${e.clientX}px`;
+					cursorDot.style.top = `${e.clientY}px`;
+					
+					cursorOutline.style.left = `${e.clientX}px`;
+					cursorOutline.style.top = `${e.clientY}px`;
+				});
+			});
+			
+			// Scale effect on clickable elements
+			document.querySelectorAll('a, button, .project-card, input, textarea, [role="button"]').forEach(item => {
+				item.addEventListener('mouseover', () => {
+					cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+					cursorOutline.style.backgroundColor = 'rgba(58, 134, 255, 0.2)';
+				});
+				
+				item.addEventListener('mouseout', () => {
+					cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+					cursorOutline.style.backgroundColor = 'rgba(58, 134, 255, 0.1)';
+				});
+			});
+			
+			// Hide cursor when leaving window
+			document.addEventListener('mouseleave', () => {
+				cursorDot.style.opacity = '0';
+				cursorOutline.style.opacity = '0';
+			});
+		}
+	});
+</script>

@@ -1,0 +1,308 @@
+---
+const skills = [
+  { category: "Frontend", items: ["HTML & CSS", "JavaScript (ES6+)", "React", "Vue.js", "TypeScript"] },
+  { category: "Backend", items: ["Node.js", "Express", "Python", "RESTful APIs", "GraphQL"] },
+  { category: "Design", items: ["Figma", "Adobe XD", "UI/UX", "Responsive Design", "Animation"] },
+  { category: "Tools", items: ["Git", "Webpack", "Docker", "Jest", "CI/CD"] }
+];
+---
+
+<section id="about" class="section about">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="text-accent">01.</span> About Me
+    </h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p class="js-fade-in">
+          Hello! I'm John, a web developer based in New York City who enjoys creating 
+          elegant digital experiences. My journey in web development began in 2015 when I 
+          decided to try creating a custom WordPress theme — turns out hacking together a 
+          custom theme taught me a lot about HTML & CSS!
+        </p>
+        <p class="js-fade-in">
+          Fast-forward to today, and I've had the privilege of working at a <a href="#">digital agency</a>, 
+          a <a href="#">startup</a>, and a <a href="#">large corporation</a>. My main focus these days 
+          is building accessible, inclusive products and digital experiences at 
+          <a href="#">Acme Corporation</a> for a variety of clients.
+        </p>
+        <p class="js-fade-in">
+          I also recently launched a <a href="#">course</a> that covers everything you need to build a web app with the MERN stack.
+        </p>
+      </div>
+      <div class="about-image-container js-fade-in">
+        <div class="about-image-wrapper">
+          <img src="/placeholder-profile.jpg" alt="Profile Picture" class="about-image" />
+        </div>
+      </div>
+    </div>
+    
+    <div class="skills-section">
+      <h3 class="skills-title js-fade-in">Skills & Technologies</h3>
+      <div class="skills-grid">
+        {skills.map((skillGroup) => (
+          <div class="skill-category js-fade-in">
+            <h4 class="skill-category-title">{skillGroup.category}</h4>
+            <ul class="skill-list">
+              {skillGroup.items.map((skill) => (
+                <li class="skill-item">{skill}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import anime from 'animejs';
+
+  // Animation for About section
+  const observerAbout = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate the section title
+        anime({
+          targets: '.about .section-title',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate paragraphs
+        anime({
+          targets: '.about-text .js-fade-in',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: anime.stagger(200),
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate profile image
+        anime({
+          targets: '.about-image-container',
+          opacity: [0, 1],
+          translateX: [20, 0],
+          delay: 300,
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate skills title
+        anime({
+          targets: '.skills-title',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: 400,
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate skill categories
+        anime({
+          targets: '.skill-category',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: anime.stagger(150, {start: 500}),
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        observerAbout.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const aboutSection = document.querySelector('#about');
+    if (aboutSection) {
+      observerAbout.observe(aboutSection);
+    }
+  });
+</script>
+
+<style>
+  .about {
+    margin-top: calc(var(--space-xl) * 2);
+  }
+  
+  .section-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    font-size: var(--fs-xl);
+    opacity: 0;
+  }
+  
+  .section-title::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 300px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    margin-left: var(--space-sm);
+    opacity: 0.5;
+  }
+  
+  .about-content {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .about-text p {
+    margin-bottom: var(--space-md);
+    color: var(--color-text-muted);
+    font-size: var(--fs-md);
+    line-height: 1.8;
+    opacity: 0;
+  }
+  
+  .about-text a {
+    position: relative;
+    display: inline-block;
+    color: var(--color-accent);
+    font-weight: var(--fw-medium);
+    transition: all var(--transition-normal);
+  }
+  
+  .about-text a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--transition-normal);
+  }
+  
+  .about-text a:hover {
+    color: var(--color-accent);
+  }
+  
+  .about-text a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .about-image-container {
+    position: relative;
+    max-width: 300px;
+    align-self: start;
+    justify-self: center;
+    opacity: 0;
+  }
+  
+  .about-image-wrapper {
+    position: relative;
+    border-radius: 4px;
+  }
+  
+  .about-image-wrapper::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--color-accent);
+    top: var(--space-sm);
+    left: var(--space-sm);
+    border-radius: 4px;
+    z-index: -1;
+    transition: all var(--transition-normal);
+  }
+  
+  .about-image-wrapper:hover::after {
+    top: var(--space-xs);
+    left: var(--space-xs);
+  }
+  
+  .about-image {
+    width: 100%;
+    border-radius: 4px;
+    filter: grayscale(100%) contrast(1.1);
+    transition: all var(--transition-normal);
+    mix-blend-mode: multiply;
+  }
+  
+  .about-image-wrapper:hover .about-image {
+    filter: none;
+    mix-blend-mode: normal;
+  }
+  
+  /* Skills Section */
+  .skills-section {
+    margin-top: var(--space-xl);
+  }
+  
+  .skills-title {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--space-lg);
+    color: var(--color-text);
+    font-weight: var(--fw-light);
+    opacity: 0;
+  }
+  
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .skill-category {
+    opacity: 0;
+  }
+  
+  .skill-category-title {
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-medium);
+    letter-spacing: 1px;
+  }
+  
+  .skill-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .skill-item {
+    position: relative;
+    padding-left: var(--space-md);
+    margin-bottom: var(--space-xs);
+    color: var(--color-text-muted);
+  }
+  
+  .skill-item::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .about-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-image-container {
+      justify-self: start;
+      margin-top: var(--space-lg);
+    }
+    
+    .section-title::after {
+      width: 100px;
+    }
+    
+    .skills-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style> 

@@ -1,0 +1,292 @@
+---
+const experiences = [
+  {
+    title: "Senior Frontend Developer",
+    company: "Acme Corporation",
+    period: "January 2021 - Present",
+    description: [
+      "Led the development of a React-based component library that is now used across all company products",
+      "Optimized application performance, reducing load time by 40% and improving Lighthouse scores",
+      "Mentored junior developers and conducted code reviews to maintain high quality standards",
+      "Collaborated with designers to implement responsive, accessible interfaces that adhere to WCAG guidelines"
+    ],
+    technologies: ["React", "TypeScript", "Redux", "Styled Components", "Jest"]
+  },
+  {
+    title: "Frontend Developer",
+    company: "Tech Startup Inc.",
+    period: "March 2018 - December 2020",
+    description: [
+      "Developed and maintained multiple client-facing web applications using Vue.js and Nuxt",
+      "Implemented state management solutions and optimized rendering performance",
+      "Built RESTful APIs using Node.js and Express to support frontend applications",
+      "Participated in agile development processes including daily stand-ups and sprint planning"
+    ],
+    technologies: ["Vue.js", "Nuxt.js", "Node.js", "Express", "MongoDB"]
+  },
+  {
+    title: "Web Developer",
+    company: "Digital Agency",
+    period: "June 2015 - February 2018",
+    description: [
+      "Created responsive websites for various clients across different industries",
+      "Converted design mockups into functional, cross-browser compatible websites",
+      "Maintained and updated existing client websites, improving performance and SEO",
+      "Collaborated with the design team to ensure technical feasibility of UI/UX designs"
+    ],
+    technologies: ["HTML5", "CSS3/SCSS", "JavaScript", "jQuery", "WordPress"]
+  }
+];
+---
+
+<section id="experience" class="section experience">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="text-accent">03.</span> Where I've Worked
+    </h2>
+    
+    <div class="experience-container">
+      <div class="experience-timeline">
+        {experiences.map((exp, index) => (
+          <div class="timeline-item js-timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content glass-effect">
+              <div class="timeline-header">
+                <h3 class="timeline-title">
+                  <span>{exp.title}</span> <span class="text-accent">@ {exp.company}</span>
+                </h3>
+                <p class="timeline-period">{exp.period}</p>
+              </div>
+              <ul class="timeline-description">
+                {exp.description.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+              <div class="timeline-technologies">
+                {exp.technologies.map((tech) => (
+                  <span class="technology-tag">{tech}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+        <div class="timeline-line"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import anime from 'animejs';
+
+  // Animation for Experience section
+  const observerExperience = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate the section title
+        anime({
+          targets: '#experience .section-title',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate timeline line
+        anime({
+          targets: '.timeline-line',
+          scaleY: [0, 1],
+          opacity: [0, 1],
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        });
+        
+        // Animate timeline items
+        anime({
+          targets: '.js-timeline-item',
+          opacity: [0, 1],
+          translateX: [50, 0],
+          delay: anime.stagger(200),
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        observerExperience.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const experienceSection = document.querySelector('#experience');
+    if (experienceSection) {
+      observerExperience.observe(experienceSection);
+    }
+  });
+</script>
+
+<style>
+  .experience {
+    margin-top: calc(var(--space-xl) * 2);
+  }
+  
+  .section-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    font-size: var(--fs-xl);
+    opacity: 0;
+  }
+  
+  .section-title::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 300px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    margin-left: var(--space-sm);
+    opacity: 0.5;
+  }
+  
+  .experience-container {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-md) 0;
+  }
+  
+  .experience-timeline {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+  }
+  
+  .timeline-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+      var(--color-accent) 0%, 
+      rgba(58, 134, 255, 0.5) 50%, 
+      rgba(58, 134, 255, 0.2) 100%);
+    transform-origin: top;
+    opacity: 0;
+  }
+  
+  .timeline-item {
+    display: flex;
+    margin-bottom: var(--space-lg);
+    position: relative;
+    opacity: 0;
+  }
+  
+  .timeline-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    background-color: var(--color-bg-alt);
+    margin-right: var(--space-md);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .timeline-marker::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
+  }
+  
+  .timeline-content {
+    flex: 1;
+    padding: var(--space-md);
+    border-radius: 8px;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+  
+  .timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .timeline-header {
+    margin-bottom: var(--space-md);
+  }
+  
+  .timeline-title {
+    font-size: var(--fs-md);
+    font-weight: var(--fw-medium);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .timeline-period {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    font-family: 'Roboto Mono', monospace;
+  }
+  
+  .timeline-description {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-md) 0;
+  }
+  
+  .timeline-description li {
+    position: relative;
+    padding-left: var(--space-md);
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+  
+  .timeline-description li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+  
+  .timeline-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-sm);
+  }
+  
+  .technology-tag {
+    background-color: rgba(58, 134, 255, 0.1);
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid rgba(58, 134, 255, 0.2);
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .section-title::after {
+      width: 100px;
+    }
+    
+    .timeline-marker {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .timeline-marker::before {
+      width: 8px;
+      height: 8px;
+    }
+    
+    .timeline-line {
+      left: 11px;
+    }
+  }
+</style> 

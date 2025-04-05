@@ -1,0 +1,579 @@
+---
+const projects = [
+  {
+    title: "Immersive Digital Gallery",
+    description: "A WebGL-powered art gallery that offers immersive 3D experiences for digital artists to showcase their work. Features fluid animations and interactive elements.",
+    tech: ["Three.js", "WebGL", "React", "GSAP"],
+    image: "/project1.jpg",
+    live: "#",
+    github: "#",
+    featured: true
+  },
+  {
+    title: "Financial Dashboard",
+    description: "A comprehensive financial analytics platform with real-time data visualization, customizable widgets, and dark-themed UI optimized for extended screen time.",
+    tech: ["Vue.js", "D3.js", "Firebase", "Tailwind CSS"],
+    image: "/project2.jpg",
+    live: "#",
+    github: "#",
+    featured: true
+  },
+  {
+    title: "AI Content Platform",
+    description: "An AI-powered content generation platform with minimalist interface, featuring advanced text analysis, auto-formatting, and SEO optimization tools.",
+    tech: ["Next.js", "OpenAI API", "Node.js", "MongoDB"],
+    image: "/project3.jpg",
+    live: "#",
+    github: "#",
+    featured: true
+  },
+  {
+    title: "E-commerce System",
+    description: "A complete e-commerce solution with inventory management, payment processing, and customer analytics in a responsive design.",
+    tech: ["React", "Stripe API", "Express", "PostgreSQL"],
+    image: "/project4.jpg",
+    live: "#",
+    github: "#"
+  },
+  {
+    title: "Smart Home Control",
+    description: "Mobile application for smart home device control with voice commands, scheduling features, and energy usage statistics.",
+    tech: ["React Native", "IoT", "GraphQL", "Socket.io"],
+    image: "/project5.jpg",
+    live: "#",
+    github: "#"
+  },
+  {
+    title: "Music Streaming Service",
+    description: "A sleek, minimal music player with personalized recommendations, playlist generation, and social sharing features.",
+    tech: ["Angular", "Web Audio API", "Node.js", "AWS"],
+    image: "/project6.jpg",
+    live: "#", 
+    github: "#"
+  }
+];
+
+// Filter featured projects for the main showcase
+const featuredProjects = projects.filter(project => project.featured);
+const otherProjects = projects.filter(project => !project.featured);
+---
+
+<section id="projects" class="section projects">
+  <div class="container">
+    <h2 class="section-title">
+      <span class="text-accent">02.</span> Selected Work
+    </h2>
+    
+    <!-- Featured Projects - Alternating Layout -->
+    <div class="featured-projects">
+      {featuredProjects.map((project, index) => (
+        <div class="featured-project js-fade-in" data-index={index}>
+          <div class="project-content">
+            <p class="project-overline text-accent">Featured Project</p>
+            <h3 class="project-title">{project.title}</h3>
+            <div class="project-description glass-effect">
+              <p>{project.description}</p>
+            </div>
+            <ul class="project-tech-list">
+              {project.tech.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+            <div class="project-links">
+              <a href={project.github} class="project-link" aria-label="GitHub Repository">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+              <a href={project.live} class="project-link" aria-label="Live Demo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                  <path fill="currentColor" d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zm-2 16H5V12h2v5h5v2z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="project-image js-parallax">
+            <div class="project-image-frame"></div>
+            <div class="project-image-overlay"></div>
+            <img src={project.image} alt={project.title} loading="lazy" />
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <h3 class="other-projects-title js-fade-in">Other Noteworthy Projects</h3>
+    
+    <!-- Other Projects Grid -->
+    <div class="projects-grid">
+      {otherProjects.map((project) => (
+        <div class="project-card js-project-card">
+          <div class="card-top">
+            <div class="folder-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40">
+                <path fill="currentColor" d="M20 5h-8.586L9.707 3.293A.997.997 0 0 0 9 3H4c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2z"/>
+              </svg>
+            </div>
+            <div class="project-links">
+              <a href={project.github} class="project-link" aria-label="GitHub Repository">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+              </a>
+              <a href={project.live} class="project-link" aria-label="Live Demo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="currentColor" d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7zm-2 16H5V12h2v5h5v2z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="card-content">
+            <h3 class="card-title">{project.title}</h3>
+            <p class="card-description">{project.description}</p>
+          </div>
+          <ul class="card-tech-list">
+            {project.tech.map((tech) => (
+              <li>{tech}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import anime from 'animejs';
+
+  // Animation for Projects section
+  const observerProjects = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate the section title
+        anime({
+          targets: '#projects .section-title',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate featured projects
+        anime({
+          targets: '.featured-project',
+          opacity: [0, 1],
+          translateY: [100, 0],
+          delay: anime.stagger(300),
+          duration: 1000,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate other projects title
+        anime({
+          targets: '.other-projects-title',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: 600,
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate other project cards with staggered appearance
+        anime({
+          targets: '.project-card',
+          opacity: [0, 1],
+          translateY: [50, 0],
+          delay: anime.stagger(150, {start: 800}),
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Setup parallax effect for featured project images
+        const parallaxItems = document.querySelectorAll('.js-parallax');
+        if (parallaxItems.length > 0) {
+          window.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            parallaxItems.forEach(item => {
+              const rect = item.getBoundingClientRect();
+              
+              // Only apply parallax if mouse is near the element
+              if (mouseX > rect.left - 500 && mouseX < rect.right + 500 &&
+                  mouseY > rect.top - 500 && mouseY < rect.bottom + 500) {
+                
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                
+                // Calculate distance from center of element
+                const moveX = (mouseX - centerX) / 20;
+                const moveY = (mouseY - centerY) / 20;
+                
+                anime({
+                  targets: item,
+                  translateX: moveX,
+                  translateY: moveY,
+                  duration: 400,
+                  easing: 'easeOutCubic'
+                });
+              }
+            });
+          });
+        }
+        
+        // Setup hover animations for project cards
+        const projectCards = document.querySelectorAll('.project-card');
+        projectCards.forEach(card => {
+          card.addEventListener('mouseenter', () => {
+            anime({
+              targets: card,
+              translateY: -15,
+              boxShadow: '0 20px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(58, 134, 255, 0.3)',
+              duration: 400,
+              easing: 'easeOutQuad'
+            });
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            anime({
+              targets: card,
+              translateY: 0,
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 rgba(58, 134, 255, 0)',
+              duration: 400,
+              easing: 'easeOutQuad'
+            });
+          });
+        });
+        
+        observerProjects.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const projectsSection = document.querySelector('#projects');
+    if (projectsSection) {
+      observerProjects.observe(projectsSection);
+    }
+  });
+</script>
+
+<style>
+  .projects {
+    margin-top: calc(var(--space-xl) * 2);
+    position: relative;
+  }
+  
+  .section-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    font-size: var(--fs-xl);
+    opacity: 0;
+  }
+  
+  .section-title::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 300px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    margin-left: var(--space-sm);
+    opacity: 0.5;
+  }
+  
+  /* Featured Projects */
+  .featured-projects {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space-xl) * 2);
+    margin-bottom: var(--space-xl);
+  }
+  
+  .featured-project {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    opacity: 0;
+    position: relative;
+  }
+  
+  .featured-project:nth-child(odd) .project-content {
+    grid-column: 1 / 7;
+    grid-row: 1 / -1;
+    text-align: left;
+    z-index: 2;
+  }
+  
+  .featured-project:nth-child(odd) .project-image {
+    grid-column: 6 / -1;
+    grid-row: 1 / -1;
+  }
+  
+  .featured-project:nth-child(even) .project-content {
+    grid-column: 7 / -1;
+    grid-row: 1 / -1;
+    text-align: right;
+    z-index: 2;
+  }
+  
+  .featured-project:nth-child(even) .project-image {
+    grid-column: 1 / 8;
+    grid-row: 1 / -1;
+  }
+  
+  .featured-project:nth-child(even) .project-tech-list {
+    justify-content: flex-end;
+  }
+  
+  .featured-project:nth-child(even) .project-links {
+    justify-content: flex-end;
+  }
+  
+  .project-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+  }
+  
+  .project-overline {
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    margin-bottom: var(--space-xs);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  .project-title {
+    font-size: var(--fs-xl);
+    margin-bottom: var(--space-md);
+    font-weight: var(--fw-light);
+  }
+  
+  .project-description {
+    margin-bottom: var(--space-md);
+    padding: var(--space-md);
+    border-radius: 4px;
+    color: var(--color-text-muted);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .project-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    list-style: none;
+    padding: 0;
+  }
+  
+  .project-tech-list li {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    padding: 0.25rem 0.75rem;
+    background-color: rgba(58, 134, 255, 0.1);
+    border-radius: 100px;
+    border: 1px solid rgba(58, 134, 255, 0.2);
+  }
+  
+  .project-links {
+    display: flex;
+    gap: var(--space-sm);
+  }
+  
+  .project-link {
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+  }
+  
+  .project-link:hover {
+    color: var(--color-accent);
+    transform: translateY(-3px);
+  }
+  
+  .project-image {
+    position: relative;
+    height: 400px;
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.2);
+    transition: all var(--transition-normal);
+  }
+  
+  .project-image:hover img {
+    filter: grayscale(0) contrast(1);
+  }
+  
+  .project-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(10, 14, 23, 0.7);
+    z-index: 1;
+    transition: opacity var(--transition-normal);
+  }
+  
+  .project-image-frame {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    border: 1px solid var(--color-accent);
+    z-index: 0;
+    opacity: 0.5;
+    transition: all var(--transition-normal);
+  }
+  
+  .project-image:hover .project-image-overlay {
+    opacity: 0;
+  }
+  
+  .project-image:hover .project-image-frame {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    opacity: 0.8;
+  }
+  
+  /* Other Projects */
+  .other-projects-title {
+    text-align: center;
+    font-size: var(--fs-lg);
+    margin: var(--space-xl) 0;
+    color: var(--color-text);
+    font-weight: var(--fw-light);
+    opacity: 0;
+  }
+  
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-lg);
+  }
+  
+  .project-card {
+    background-color: var(--color-bg-alt);
+    border-radius: 4px;
+    padding: var(--space-md);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-normal);
+    border: 1px solid rgba(58, 134, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+  }
+  
+  .folder-icon {
+    color: var(--color-accent);
+  }
+  
+  .card-content {
+    flex-grow: 1;
+  }
+  
+  .card-title {
+    font-size: var(--fs-md);
+    margin-bottom: var(--space-sm);
+    color: var(--color-text);
+    font-weight: var(--fw-medium);
+    transition: color var(--transition-normal);
+  }
+  
+  .project-card:hover .card-title {
+    color: var(--color-accent);
+  }
+  
+  .card-description {
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    margin-bottom: var(--space-md);
+    line-height: 1.6;
+  }
+  
+  .card-tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin-top: auto;
+  }
+  
+  .card-tech-list li {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 1200px) {
+    .featured-project {
+      gap: var(--space-md);
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .featured-project,
+    .featured-project:nth-child(even),
+    .featured-project:nth-child(odd) {
+      display: block;
+    }
+    
+    .project-content,
+    .featured-project:nth-child(even) .project-content,
+    .featured-project:nth-child(odd) .project-content {
+      grid-column: 1 / -1;
+      text-align: left;
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    
+    .project-image,
+    .featured-project:nth-child(even) .project-image,
+    .featured-project:nth-child(odd) .project-image {
+      grid-column: 1 / -1;
+      height: 300px;
+    }
+    
+    .project-tech-list,
+    .featured-project:nth-child(even) .project-tech-list {
+      justify-content: flex-start;
+    }
+    
+    .project-links,
+    .featured-project:nth-child(even) .project-links {
+      justify-content: flex-start;
+    }
+    
+    .section-title::after {
+      width: 100px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style> 

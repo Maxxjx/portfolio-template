@@ -1,0 +1,310 @@
+---
+const currentYear = new Date().getFullYear();
+
+const socialLinks = [
+  {
+    name: "GitHub",
+    url: "https://github.com",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>`
+  },
+  {
+    name: "LinkedIn",
+    url: "https://linkedin.com",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>`
+  },
+  {
+    name: "Twitter",
+    url: "https://twitter.com",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>`
+  },
+  {
+    name: "Instagram",
+    url: "https://instagram.com",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>`
+  }
+];
+---
+
+<footer class="footer">
+  <div class="footer-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+  </div>
+  
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-top">
+        <div class="footer-logo js-footer-item">
+          <a href="/" class="logo-link"><span class="text-gradient">JD</span></a>
+          <p class="tagline">Crafting digital experiences</p>
+        </div>
+        
+        <nav class="footer-nav js-footer-item">
+          <ul class="footer-nav-list">
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Work</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      
+      <div class="footer-social js-footer-item">
+        <ul class="social-links">
+          {socialLinks.map(link => (
+            <li>
+              <a href={link.url} target="_blank" rel="noopener noreferrer" class="social-link" aria-label={link.name}>
+                <Fragment set:html={link.icon} />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <div class="footer-bottom js-footer-item">
+        <p class="copyright">
+          Designed & Built by John Doe
+        </p>
+        <p class="copyright">
+          © {currentYear} All Rights Reserved
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-accent-glow"></div>
+</footer>
+
+<script>
+  import anime from 'animejs';
+  
+  // Footer animations
+  const observerFooter = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Animate footer items
+        anime({
+          targets: '.js-footer-item',
+          opacity: [0, 1],
+          translateY: [20, 0],
+          delay: anime.stagger(150),
+          duration: 800,
+          easing: 'easeOutExpo'
+        });
+        
+        // Animate social links
+        anime({
+          targets: '.social-links li',
+          opacity: [0, 1],
+          translateY: [10, 0],
+          delay: anime.stagger(100, {start: 300}),
+          duration: 600,
+          easing: 'easeOutExpo'
+        });
+        
+        // Glow effect
+        anime({
+          targets: '.bg-accent-glow',
+          opacity: [0, 0.6],
+          scale: [0.8, 1],
+          duration: 1500,
+          easing: 'easeOutQuart'
+        });
+        
+        observerFooter.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const footer = document.querySelector('.footer');
+    if (footer) {
+      observerFooter.observe(footer);
+    }
+  });
+</script>
+
+<style>
+  .footer {
+    position: relative;
+    padding: var(--space-xl) 0 var(--space-md);
+    background-color: var(--color-bg-alt);
+    margin-top: var(--space-xl);
+    overflow: hidden;
+  }
+  
+  .footer-divider {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+  
+  .footer-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 60px;
+  }
+  
+  .footer-divider .shape-fill {
+    fill: var(--color-bg);
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    position: relative;
+    z-index: 1;
+  }
+  
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    gap: var(--space-lg);
+  }
+  
+  .footer-logo {
+    opacity: 0;
+  }
+  
+  .logo-link {
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .tagline {
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    letter-spacing: 1px;
+  }
+  
+  .footer-nav {
+    opacity: 0;
+  }
+  
+  .footer-nav-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: var(--space-md);
+  }
+  
+  .footer-nav-list a {
+    color: var(--color-text);
+    position: relative;
+    transition: all var(--transition-normal);
+    padding: var(--space-xs) 0;
+  }
+  
+  .footer-nav-list a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-accent);
+    transition: width var(--transition-normal);
+  }
+  
+  .footer-nav-list a:hover {
+    color: var(--color-accent);
+  }
+  
+  .footer-nav-list a:hover::after {
+    width: 100%;
+  }
+  
+  .footer-social {
+    opacity: 0;
+  }
+  
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    list-style: none;
+    padding: 0;
+  }
+  
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--color-text-muted);
+    border: 1px solid rgba(58, 134, 255, 0.2);
+    transition: all var(--transition-normal);
+    background-color: rgba(10, 14, 23, 0.3);
+    opacity: 0;
+  }
+  
+  .social-link:hover {
+    transform: translateY(-5px);
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    opacity: 0;
+  }
+  
+  .copyright {
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    margin-bottom: var(--space-xs);
+    opacity: 0.7;
+    letter-spacing: 1px;
+  }
+  
+  .bg-accent-glow {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(58, 134, 255, 0.2) 0%, rgba(58, 134, 255, 0) 70%);
+    opacity: 0;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+  
+  @media (max-width: 768px) {
+    .footer-divider svg {
+      height: 40px;
+    }
+    
+    .footer-top {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-md);
+    }
+    
+    .footer-nav-list {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .social-links {
+      gap: var(--space-sm);
+    }
+  }
+</style> 
