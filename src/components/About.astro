@@ -1,10 +1,10 @@
 ---
-const skills = [
-  { category: "Frontend", items: ["HTML & CSS", "JavaScript (ES6+)", "React", "Vue.js", "TypeScript"] },
-  { category: "Backend", items: ["Node.js", "Express", "Python", "RESTful APIs", "GraphQL"] },
-  { category: "Design", items: ["Figma", "Adobe XD", "UI/UX", "Responsive Design", "Animation"] },
-  { category: "Tools", items: ["Git", "Webpack", "Docker", "Jest", "CI/CD"] }
-];
+const skills = {
+  frontend: ["HTML5", "CSS3", "JavaScript", "React", "Vue.js", "TypeScript", "SASS", "Tailwind"],
+  backend: ["Node.js", "Express", "Python", "GraphQL", "REST APIs", "MongoDB", "PostgreSQL", "Firebase"],
+  design: ["Figma", "Adobe XD", "UI/UX", "Responsive Design", "Animation", "Wireframing"],
+  tools: ["Git", "Webpack", "Docker", "Jest", "GitHub Actions", "VS Code", "Linux", "AWS"]
+};
 ---
 
 <section id="about" class="section about">
@@ -37,19 +37,65 @@ const skills = [
       </div>
     </div>
     
-    <div class="skills-section">
-      <h3 class="skills-title js-fade-in">Skills & Technologies</h3>
-      <div class="skills-grid">
-        {skills.map((skillGroup) => (
-          <div class="skill-category js-fade-in">
-            <h4 class="skill-category-title">{skillGroup.category}</h4>
-            <ul class="skill-list">
-              {skillGroup.items.map((skill) => (
-                <li class="skill-item">{skill}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+    <div class="skills-terminal js-fade-in">
+      <div class="terminal-header">
+        <div class="terminal-buttons">
+          <span class="terminal-button"></span>
+          <span class="terminal-button"></span>
+          <span class="terminal-button"></span>
+        </div>
+        <div class="terminal-title">skills.sh</div>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">ls skills/</span>
+        </div>
+        <div class="terminal-output js-terminal-category">
+          <span class="terminal-directory">frontend/</span>
+          <span class="terminal-directory">backend/</span>
+          <span class="terminal-directory">design/</span>
+          <span class="terminal-directory">tools/</span>
+        </div>
+        
+        <div class="terminal-line delay-1">
+          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/frontend/*</span>
+        </div>
+        <div class="terminal-output js-terminal-frontend">
+          {skills.frontend.map((skill) => (
+            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
+          ))}
+        </div>
+        
+        <div class="terminal-line delay-2">
+          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/backend/*</span>
+        </div>
+        <div class="terminal-output js-terminal-backend">
+          {skills.backend.map((skill) => (
+            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
+          ))}
+        </div>
+        
+        <div class="terminal-line delay-3">
+          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/design/*</span>
+        </div>
+        <div class="terminal-output js-terminal-design">
+          {skills.design.map((skill) => (
+            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
+          ))}
+        </div>
+        
+        <div class="terminal-line delay-4">
+          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/tools/*</span>
+        </div>
+        <div class="terminal-output js-terminal-tools">
+          {skills.tools.map((skill) => (
+            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
+          ))}
+        </div>
+        
+        <div class="terminal-line delay-5">
+          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-blinking-cursor"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -57,65 +103,69 @@ const skills = [
 
 <script>
   import anime from 'animejs';
-
+  
   // Animation for About section
   const observerAbout = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Animate the section title
-        anime({
-          targets: '.about .section-title',
+        // Animate content
+        anime.timeline({
+          easing: 'easeOutExpo'
+        })
+        .add({
+          targets: '#about .section-title',
           opacity: [0, 1],
           translateY: [20, 0],
-          duration: 800,
-          easing: 'easeOutExpo'
-        });
-        
-        // Animate paragraphs
-        anime({
-          targets: '.about-text .js-fade-in',
+          duration: 800
+        })
+        .add({
+          targets: '.js-fade-in',
           opacity: [0, 1],
           translateY: [20, 0],
           delay: anime.stagger(200),
-          duration: 800,
-          easing: 'easeOutExpo'
-        });
+          duration: 800
+        }, '-=600');
         
-        // Animate profile image
-        anime({
-          targets: '.about-image-container',
+        // Terminal typing effect
+        anime.timeline({
+          easing: 'easeOutExpo',
+          delay: 1000
+        })
+        .add({
+          targets: '.js-terminal-category',
           opacity: [0, 1],
-          translateX: [20, 0],
-          delay: 300,
-          duration: 800,
-          easing: 'easeOutExpo'
-        });
-        
-        // Animate skills title
-        anime({
-          targets: '.skills-title',
+          duration: 300
+        })
+        .add({
+          targets: '.js-terminal-frontend',
           opacity: [0, 1],
-          translateY: [20, 0],
-          delay: 400,
-          duration: 800,
-          easing: 'easeOutExpo'
-        });
-        
-        // Animate skill categories
-        anime({
-          targets: '.skill-category',
+          delay: anime.stagger(100),
+          duration: 300
+        }, '+=500')
+        .add({
+          targets: '.js-terminal-backend',
           opacity: [0, 1],
-          translateY: [20, 0],
-          delay: anime.stagger(150, {start: 500}),
-          duration: 800,
-          easing: 'easeOutExpo'
-        });
+          delay: anime.stagger(100),
+          duration: 300
+        }, '+=500')
+        .add({
+          targets: '.js-terminal-design',
+          opacity: [0, 1],
+          delay: anime.stagger(100),
+          duration: 300
+        }, '+=500')
+        .add({
+          targets: '.js-terminal-tools',
+          opacity: [0, 1],
+          delay: anime.stagger(100),
+          duration: 300
+        }, '+=500');
         
         observerAbout.disconnect();
       }
     });
   }, { threshold: 0.1 });
-
+  
   document.addEventListener('DOMContentLoaded', () => {
     const aboutSection = document.querySelector('#about');
     if (aboutSection) {
@@ -126,47 +176,49 @@ const skills = [
 
 <style>
   .about {
-    margin-top: calc(var(--space-xl) * 2);
+    margin-top: calc(var(--space-xl) * 1.5);
   }
   
   .section-title {
     display: flex;
     align-items: center;
-    margin-bottom: var(--space-lg);
-    font-size: var(--fs-xl);
-    opacity: 0;
+    margin-bottom: var(--space-md);
+    font-size: var(--fs-lg);
   }
   
   .section-title::after {
     content: '';
     display: block;
     height: 1px;
-    width: 300px;
+    width: 250px;
     background: linear-gradient(90deg, var(--color-accent), transparent);
     margin-left: var(--space-sm);
-    opacity: 0.5;
   }
   
   .about-content {
     display: grid;
     grid-template-columns: 3fr 2fr;
-    gap: var(--space-xl);
-    margin-bottom: var(--space-xl);
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+  
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
   }
   
   .about-text p {
-    margin-bottom: var(--space-md);
     color: var(--color-text-muted);
-    font-size: var(--fs-md);
-    line-height: 1.8;
-    opacity: 0;
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    margin: 0;
   }
   
   .about-text a {
-    position: relative;
-    display: inline-block;
     color: var(--color-accent);
-    font-weight: var(--fw-medium);
+    position: relative;
+    text-decoration: none;
     transition: all var(--transition-normal);
   }
   
@@ -175,52 +227,50 @@ const skills = [
     position: absolute;
     bottom: -2px;
     left: 0;
-    width: 100%;
+    width: 0;
     height: 1px;
     background-color: var(--color-accent);
-    transform: scaleX(0);
-    transform-origin: right;
-    transition: transform var(--transition-normal);
+    transition: width var(--transition-normal);
   }
   
   .about-text a:hover {
-    color: var(--color-accent);
+    color: var(--color-accent-alt);
   }
   
   .about-text a:hover::after {
-    transform: scaleX(1);
-    transform-origin: left;
+    width: 100%;
   }
   
   .about-image-container {
-    position: relative;
-    max-width: 300px;
-    align-self: start;
-    justify-self: center;
-    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
   
   .about-image-wrapper {
     position: relative;
+    width: 80%;
+    max-width: 250px;
     border-radius: 4px;
+    overflow: hidden;
   }
   
   .about-image-wrapper::after {
     content: '';
     position: absolute;
+    top: 10px;
+    left: 10px;
     width: 100%;
     height: 100%;
-    border: 2px solid var(--color-accent);
-    top: var(--space-sm);
-    left: var(--space-sm);
+    border: 1px solid var(--color-accent);
     border-radius: 4px;
     z-index: -1;
     transition: all var(--transition-normal);
   }
   
   .about-image-wrapper:hover::after {
-    top: var(--space-xs);
-    left: var(--space-xs);
+    top: 8px;
+    left: 8px;
   }
   
   .about-image {
@@ -228,80 +278,191 @@ const skills = [
     border-radius: 4px;
     filter: grayscale(100%) contrast(1.1);
     transition: all var(--transition-normal);
-    mix-blend-mode: multiply;
   }
   
-  .about-image-wrapper:hover .about-image {
-    filter: none;
-    mix-blend-mode: normal;
+  .about-image:hover {
+    filter: grayscale(0) contrast(1);
   }
   
-  /* Skills Section */
-  .skills-section {
-    margin-top: var(--space-xl);
+  /* Terminal Interface Styling */
+  .skills-terminal {
+    background-color: #121a29;
+    border-radius: 6px;
+    margin-top: var(--space-md);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    font-family: 'JetBrains Mono', 'Roboto Mono', 'Courier New', monospace;
+    border: 1px solid rgba(58, 134, 255, 0.2);
   }
   
-  .skills-title {
-    font-size: var(--fs-lg);
-    margin-bottom: var(--space-lg);
-    color: var(--color-text);
-    font-weight: var(--fw-light);
-    opacity: 0;
+  .terminal-header {
+    background-color: #0d141e;
+    padding: var(--space-xs) var(--space-sm);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(58, 134, 255, 0.1);
   }
   
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: var(--space-lg);
+  .terminal-buttons {
+    display: flex;
+    gap: 6px;
+    margin-right: var(--space-sm);
   }
   
-  .skill-category {
-    opacity: 0;
+  .terminal-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ff5f56;
   }
   
-  .skill-category-title {
-    color: var(--color-accent);
-    margin-bottom: var(--space-sm);
-    font-size: var(--fs-md);
-    font-weight: var(--fw-medium);
-    letter-spacing: 1px;
+  .terminal-button:nth-child(2) {
+    background-color: #ffbd2e;
   }
   
-  .skill-list {
-    list-style: none;
-    padding: 0;
+  .terminal-button:nth-child(3) {
+    background-color: #27c93f;
   }
   
-  .skill-item {
-    position: relative;
-    padding-left: var(--space-md);
-    margin-bottom: var(--space-xs);
+  .terminal-title {
+    font-size: var(--fs-xs);
     color: var(--color-text-muted);
   }
   
-  .skill-item::before {
-    content: '▹';
-    position: absolute;
-    left: 0;
-    color: var(--color-accent);
+  .terminal-body {
+    padding: var(--space-sm);
+    color: var(--color-text);
+    font-size: var(--fs-xs);
+    line-height: 1.6;
   }
   
-  /* Responsive styles */
+  .terminal-line {
+    margin-bottom: var(--space-xs);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+  
+  .terminal-prompt {
+    color: var(--color-accent);
+    margin-right: var(--space-xs);
+  }
+  
+  .terminal-command {
+    color: var(--color-text);
+  }
+  
+  .terminal-output {
+    padding-left: var(--space-md);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    opacity: 0;
+  }
+  
+  .terminal-directory {
+    color: #3a86ff;
+    margin-right: var(--space-sm);
+    font-weight: var(--fw-medium);
+  }
+  
+  .skill-tag {
+    color: #f2f5f9;
+    background-color: rgba(58, 134, 255, 0.1);
+    padding: 2px 8px;
+    border-radius: 3px;
+    display: inline-block;
+    transition: all var(--transition-normal);
+  }
+  
+  .skill-tag:hover {
+    background-color: rgba(58, 134, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(58, 134, 255, 0.2);
+  }
+  
+  .skill-bracket {
+    color: var(--color-accent);
+    opacity: 0.8;
+  }
+  
+  .terminal-blinking-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 16px;
+    background-color: var(--color-accent);
+    animation: cursor-blink 1s infinite;
+  }
+  
+  .delay-1 {
+    opacity: 0;
+    animation: fade-in 0.5s ease forwards;
+    animation-delay: 1.5s;
+  }
+  
+  .delay-2 {
+    opacity: 0;
+    animation: fade-in 0.5s ease forwards;
+    animation-delay: 3s;
+  }
+  
+  .delay-3 {
+    opacity: 0;
+    animation: fade-in 0.5s ease forwards;
+    animation-delay: 4.5s;
+  }
+  
+  .delay-4 {
+    opacity: 0;
+    animation: fade-in 0.5s ease forwards;
+    animation-delay: 6s;
+  }
+  
+  .delay-5 {
+    opacity: 0;
+    animation: fade-in 0.5s ease forwards;
+    animation-delay: 7.5s;
+  }
+  
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @media (max-width: 992px) {
+    .skills-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
   @media (max-width: 768px) {
     .about-content {
       grid-template-columns: 1fr;
+      gap: var(--space-md);
     }
     
     .about-image-container {
-      justify-self: start;
-      margin-top: var(--space-lg);
+      order: -1;
+      margin-bottom: var(--space-sm);
+    }
+    
+    .about-image-wrapper {
+      max-width: 200px;
     }
     
     .section-title::after {
       width: 100px;
     }
-    
-    .skills-grid {
+  }
+  
+  @media (max-width: 480px) {
+    .skills-list {
       grid-template-columns: 1fr;
     }
   }

@@ -26,7 +26,7 @@ const { title = "Portfolio | Dark Minimalist Design", description = "A dark-them
 		<!-- Google Fonts: Montserrat (Light, Regular) and Roboto -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 		
 		<title>{title}</title>
 	</head>
@@ -38,84 +38,93 @@ const { title = "Portfolio | Dark Minimalist Design", description = "A dark-them
 	</body>
 </html>
 
+<script>
+	// Custom cursor effect
+	document.addEventListener('DOMContentLoaded', () => {
+		const cursor = document.querySelector('.cursor-dot');
+		const cursorOutline = document.querySelector('.cursor-dot-outline');
+		
+		if (cursor && cursorOutline && window.innerWidth > 768) {
+			document.addEventListener('mousemove', (e) => {
+				cursor.style.left = e.clientX + 'px';
+				cursor.style.top = e.clientY + 'px';
+				
+				// Smoother movement for the outline with a slight delay
+				setTimeout(() => {
+					cursorOutline.style.left = e.clientX + 'px';
+					cursorOutline.style.top = e.clientY + 'px';
+				}, 80);
+			});
+			
+			// Show cursor when mouse enters the window
+			document.addEventListener('mouseenter', () => {
+				cursor.style.opacity = 1;
+				cursorOutline.style.opacity = 1;
+			});
+			
+			// Hide cursor when mouse leaves the window
+			document.addEventListener('mouseleave', () => {
+				cursor.style.opacity = 0;
+				cursorOutline.style.opacity = 0;
+			});
+			
+			// Scale effects for interactive elements
+			const interactiveElements = document.querySelectorAll('a, button, input, textarea, [role="button"]');
+			interactiveElements.forEach(el => {
+				el.addEventListener('mouseenter', () => {
+					cursor.style.transform = 'translate(-50%, -50%) scale(0.5)';
+					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+				});
+				
+				el.addEventListener('mouseleave', () => {
+					cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+				});
+			});
+			
+			// Show cursor
+			setTimeout(() => {
+				cursor.style.opacity = 1;
+				cursorOutline.style.opacity = 1;
+			}, 1000);
+		}
+	});
+</script>
+
 <style is:global>
 	@import "../styles/global.css";
-
-	/* Custom Cursor Effect */
-	.cursor-dot, .cursor-dot-outline {
-		pointer-events: none;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		border-radius: 50%;
-		opacity: 0;
-		transform: translate(-50%, -50%);
-		transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out;
-		z-index: 999;
+	
+	/* Add any global styles that need to override global.css here */
+	body {
+		overflow-x: hidden;
+		background-image: radial-gradient(circle at 50% 0%, rgba(58, 134, 255, 0.05) 0%, rgba(10, 14, 23, 0) 50%);
 	}
-
+	
+	main {
+		margin: 0 auto;
+		max-width: var(--container-max-width);
+	}
+	
+	section {
+		padding-top: calc(var(--space-xl) * 0.8);
+		padding-bottom: calc(var(--space-xl) * 0.8);
+	}
+	
+	/* Refined cursor */
 	.cursor-dot {
-		width: 8px;
-		height: 8px;
-		background-color: var(--color-accent);
+		width: 5px;
+		height: 5px;
 	}
-
+	
 	.cursor-dot-outline {
-		width: 40px;
-		height: 40px;
-		background-color: rgba(58, 134, 255, 0.1);
-		border: 1px solid var(--color-accent);
+		width: 25px;
+		height: 25px;
 	}
-
+	
+	/* Hide cursor on mobile */
 	@media (max-width: 768px) {
 		.cursor-dot, .cursor-dot-outline {
 			display: none;
 		}
 	}
 </style>
-
-<script>
-	// Custom cursor effect
-	document.addEventListener('DOMContentLoaded', () => {
-		const cursorDot = document.querySelector('.cursor-dot');
-		const cursorOutline = document.querySelector('.cursor-dot-outline');
-		
-		if (cursorDot && cursorOutline && window.innerWidth > 768) {
-			// Show cursors when mouse moves
-			window.addEventListener('mousemove', (e) => {
-				cursorDot.style.opacity = '1';
-				cursorOutline.style.opacity = '1';
-				
-				// Smooth follow of cursor
-				window.requestAnimationFrame(() => {
-					cursorDot.style.left = `${e.clientX}px`;
-					cursorDot.style.top = `${e.clientY}px`;
-					
-					cursorOutline.style.left = `${e.clientX}px`;
-					cursorOutline.style.top = `${e.clientY}px`;
-				});
-			});
-			
-			// Scale effect on clickable elements
-			document.querySelectorAll('a, button, .project-card, input, textarea, [role="button"]').forEach(item => {
-				item.addEventListener('mouseover', () => {
-					cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
-					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
-					cursorOutline.style.backgroundColor = 'rgba(58, 134, 255, 0.2)';
-				});
-				
-				item.addEventListener('mouseout', () => {
-					cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
-					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
-					cursorOutline.style.backgroundColor = 'rgba(58, 134, 255, 0.1)';
-				});
-			});
-			
-			// Hide cursor when leaving window
-			document.addEventListener('mouseleave', () => {
-				cursorDot.style.opacity = '0';
-				cursorOutline.style.opacity = '0';
-			});
-		}
-	});
-</script>
