@@ -5,6 +5,15 @@ const skills = {
   design: ["Figma", "Adobe XD", "UI/UX", "Responsive Design", "Animation", "Wireframing"],
   tools: ["Git", "Webpack", "Docker", "Jest", "GitHub Actions", "VS Code", "Linux", "AWS"]
 };
+
+const commands = [
+  { cmd: "help", description: "Show available commands" },
+  { cmd: "ls skills", description: "List all skill categories" },
+  { cmd: "show frontend", description: "Display frontend skills" },
+  { cmd: "show backend", description: "Display backend skills" },
+  { cmd: "show tools", description: "Display development tools" },
+  { cmd: "clear", description: "Clear the terminal" }
+];
 ---
 
 <section id="about" class="section about">
@@ -37,64 +46,121 @@ const skills = {
       </div>
     </div>
     
-    <div class="skills-terminal js-fade-in">
-      <div class="terminal-header">
-        <div class="terminal-buttons">
-          <span class="terminal-button"></span>
-          <span class="terminal-button"></span>
-          <span class="terminal-button"></span>
-        </div>
-        <div class="terminal-title">skills.sh</div>
-      </div>
-      <div class="terminal-body">
-        <div class="terminal-line">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">ls skills/</span>
-        </div>
-        <div class="terminal-output js-terminal-category">
-          <span class="terminal-directory">frontend/</span>
-          <span class="terminal-directory">backend/</span>
-          <span class="terminal-directory">design/</span>
-          <span class="terminal-directory">tools/</span>
+    <div class="about-skills">
+      <h3>Skills</h3>
+      
+      <div class="skills-terminal">
+        <div class="terminal-header">
+          <div class="terminal-buttons">
+            <span class="terminal-button"></span>
+            <span class="terminal-button"></span>
+            <span class="terminal-button"></span>
+          </div>
+          <div class="terminal-title">skills.sh</div>
         </div>
         
-        <div class="terminal-line delay-1">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/frontend/*</span>
-        </div>
-        <div class="terminal-output js-terminal-frontend">
-          {skills.frontend.map((skill) => (
-            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
-          ))}
-        </div>
-        
-        <div class="terminal-line delay-2">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/backend/*</span>
-        </div>
-        <div class="terminal-output js-terminal-backend">
-          {skills.backend.map((skill) => (
-            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
-          ))}
-        </div>
-        
-        <div class="terminal-line delay-3">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/design/*</span>
-        </div>
-        <div class="terminal-output js-terminal-design">
-          {skills.design.map((skill) => (
-            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
-          ))}
-        </div>
-        
-        <div class="terminal-line delay-4">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat skills/tools/*</span>
-        </div>
-        <div class="terminal-output js-terminal-tools">
-          {skills.tools.map((skill) => (
-            <span class="skill-tag"><span class="skill-bracket">[</span>{skill}<span class="skill-bracket">]</span></span>
-          ))}
-        </div>
-        
-        <div class="terminal-line delay-5">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-blinking-cursor"></span>
+        <div class="terminal-body">
+          <p class="terminal-instructions">
+            Type commands in the terminal below to explore my skills:
+          </p>
+          
+          <!-- Help section -->
+          <div id="terminal-help" class="terminal-section">
+            <div class="terminal-line">
+              <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">help</span>
+            </div>
+            <div class="terminal-output">
+              <p class="output-title">Available commands:</p>
+              <div class="command-list">
+                {commands.map((cmd) => (
+                  <p class="command-item">
+                    <span class="command-name">{cmd.cmd}</span> - <span class="command-desc">{cmd.description}</span>
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Skills list section -->
+          <div id="terminal-skills-list" class="terminal-section" style="display: none;">
+            <div class="terminal-line">
+              <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">ls skills</span>
+            </div>
+            <div class="terminal-output">
+              <div class="skills-categories">
+                <p>📁 frontend</p>
+                <p>📁 backend</p>
+                <p>📁 tools</p>
+                <p class="terminal-tip">Use 'show [category]' to view skills in each category</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Frontend skills section -->
+          <div id="terminal-frontend" class="terminal-section" style="display: none;">
+            <div class="terminal-line">
+              <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">show frontend</span>
+            </div>
+            <div class="terminal-output">
+              <p class="output-title">Frontend Skills:</p>
+              <div class="skills-grid">
+                {skills.frontend.map((skill, index) => (
+                  <div class="skill-item" style={`animation-delay: ${index * 50}ms`}>
+                    <span class="terminal-prompt">→</span> {skill}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Backend skills section -->
+          <div id="terminal-backend" class="terminal-section" style="display: none;">
+            <div class="terminal-line">
+              <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">show backend</span>
+            </div>
+            <div class="terminal-output">
+              <p class="output-title">Backend Skills:</p>
+              <div class="skills-grid">
+                {skills.backend.map((skill, index) => (
+                  <div class="skill-item" style={`animation-delay: ${index * 50}ms`}>
+                    <span class="terminal-prompt">→</span> {skill}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Tools skills section -->
+          <div id="terminal-tools" class="terminal-section" style="display: none;">
+            <div class="terminal-line">
+              <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">show tools</span>
+            </div>
+            <div class="terminal-output">
+              <p class="output-title">Tools & Technologies:</p>
+              <div class="skills-grid">
+                {skills.tools.map((skill, index) => (
+                  <div class="skill-item" style={`animation-delay: ${index * 50}ms`}>
+                    <span class="terminal-prompt">→</span> {skill}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Terminal input -->
+          <form id="terminal-form" class="terminal-input-container">
+            <div class="terminal-line">
+              <span class="terminal-prompt">user@portfolio:~$</span>
+              <input 
+                type="text" 
+                id="terminal-input" 
+                class="terminal-input" 
+                placeholder="Type 'help' for commands"
+                autocomplete="off"
+                spellcheck="false"
+              />
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -126,41 +192,6 @@ const skills = {
           duration: 800
         }, '-=600');
         
-        // Terminal typing effect
-        anime.timeline({
-          easing: 'easeOutExpo',
-          delay: 1000
-        })
-        .add({
-          targets: '.js-terminal-category',
-          opacity: [0, 1],
-          duration: 300
-        })
-        .add({
-          targets: '.js-terminal-frontend',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500')
-        .add({
-          targets: '.js-terminal-backend',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500')
-        .add({
-          targets: '.js-terminal-design',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500')
-        .add({
-          targets: '.js-terminal-tools',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500');
-        
         observerAbout.disconnect();
       }
     });
@@ -171,6 +202,57 @@ const skills = {
     if (aboutSection) {
       observerAbout.observe(aboutSection);
     }
+    
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalForm = document.getElementById('terminal-form');
+    const helpSection = document.getElementById('terminal-help');
+    const skillsListSection = document.getElementById('terminal-skills-list');
+    const frontendSection = document.getElementById('terminal-frontend');
+    const backendSection = document.getElementById('terminal-backend');
+    const toolsSection = document.getElementById('terminal-tools');
+    const outputSections = [helpSection, skillsListSection, frontendSection, backendSection, toolsSection];
+    
+    // Initially show the help section
+    helpSection.style.display = 'block';
+
+    // Handle command submission
+    terminalForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const command = terminalInput.value.trim().toLowerCase();
+      terminalInput.value = '';
+      
+      // Hide all sections first
+      outputSections.forEach(section => {
+        section.style.display = 'none';
+      });
+      
+      // Process command
+      if (command === 'help') {
+        helpSection.style.display = 'block';
+      } else if (command === 'ls skills') {
+        skillsListSection.style.display = 'block';
+      } else if (command === 'show frontend') {
+        frontendSection.style.display = 'block';
+      } else if (command === 'show backend') {
+        backendSection.style.display = 'block';
+      } else if (command === 'show tools') {
+        toolsSection.style.display = 'block';
+      } else if (command === 'clear') {
+        // Do nothing, all sections are already hidden
+      } else {
+        // If invalid command, show help
+        helpSection.style.display = 'block';
+        const commandNotFound = document.createElement('p');
+        commandNotFound.className = 'terminal-error';
+        commandNotFound.textContent = `Command not found: ${command}`;
+        helpSection.prepend(commandNotFound);
+        
+        // Remove the error message after 3 seconds
+        setTimeout(() => {
+          commandNotFound.remove();
+        }, 3000);
+      }
+    });
   });
 </script>
 
@@ -288,11 +370,12 @@ const skills = {
   .skills-terminal {
     background-color: #121a29;
     border-radius: 6px;
-    margin-top: var(--space-md);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
     overflow: hidden;
     font-family: 'JetBrains Mono', 'Roboto Mono', 'Courier New', monospace;
     border: 1px solid rgba(58, 134, 255, 0.2);
+    margin: var(--space-lg) 0;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    max-width: 100%;
   }
   
   .terminal-header {
@@ -313,6 +396,9 @@ const skills = {
     width: 12px;
     height: 12px;
     border-radius: 50%;
+  }
+  
+  .terminal-button:nth-child(1) {
     background-color: #ff5f56;
   }
   
@@ -330,140 +416,128 @@ const skills = {
   }
   
   .terminal-body {
-    padding: var(--space-sm);
+    padding: var(--space-md);
     color: var(--color-text);
     font-size: var(--fs-xs);
     line-height: 1.6;
   }
   
+  .terminal-instructions {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+    border-bottom: 1px solid rgba(58, 134, 255, 0.1);
+    padding-bottom: var(--space-sm);
+  }
+  
   .terminal-line {
-    margin-bottom: var(--space-xs);
-    white-space: nowrap;
     display: flex;
     align-items: center;
+    margin-bottom: var(--space-sm);
   }
   
   .terminal-prompt {
     color: var(--color-accent);
     margin-right: var(--space-xs);
+    user-select: none;
   }
   
   .terminal-command {
-    color: var(--color-text);
+    color: #50FA7B;
   }
   
   .terminal-output {
-    padding-left: var(--space-md);
-    margin-bottom: var(--space-sm);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    opacity: 0;
+    margin-left: var(--space-md);
+    padding: var(--space-sm) 0;
   }
   
-  .terminal-directory {
-    color: #3a86ff;
-    margin-right: var(--space-sm);
+  .output-title {
+    color: #FFB86C;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .command-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+  
+  .command-name {
+    color: #50FA7B;
     font-weight: var(--fw-medium);
   }
   
-  .skill-tag {
-    color: #f2f5f9;
-    background-color: rgba(58, 134, 255, 0.1);
-    padding: 2px 8px;
-    border-radius: 3px;
-    display: inline-block;
-    transition: all var(--transition-normal);
+  .command-desc {
+    color: var(--color-text-muted);
   }
   
-  .skill-tag:hover {
-    background-color: rgba(58, 134, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(58, 134, 255, 0.2);
+  .skills-categories {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
   }
   
-  .skill-bracket {
-    color: var(--color-accent);
-    opacity: 0.8;
+  .skills-categories p {
+    color: #8BE9FD;
   }
   
-  .terminal-blinking-cursor {
-    display: inline-block;
-    width: 10px;
-    height: 16px;
-    background-color: var(--color-accent);
-    animation: cursor-blink 1s infinite;
+  .terminal-tip {
+    margin-top: var(--space-sm);
+    font-style: italic;
+    color: var(--color-text-muted) !important;
   }
   
-  .delay-1 {
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-xs);
+  }
+  
+  .skill-item {
+    display: flex;
+    align-items: center;
+    animation: skill-fade-in 0.5s ease forwards;
     opacity: 0;
-    animation: fade-in 0.5s ease forwards;
-    animation-delay: 1.5s;
   }
   
-  .delay-2 {
-    opacity: 0;
-    animation: fade-in 0.5s ease forwards;
-    animation-delay: 3s;
+  @keyframes skill-fade-in {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
-  .delay-3 {
-    opacity: 0;
-    animation: fade-in 0.5s ease forwards;
-    animation-delay: 4.5s;
+  .terminal-input-container {
+    margin-top: var(--space-md);
+    border-top: 1px solid rgba(58, 134, 255, 0.1);
+    padding-top: var(--space-sm);
   }
   
-  .delay-4 {
-    opacity: 0;
-    animation: fade-in 0.5s ease forwards;
-    animation-delay: 6s;
+  .terminal-input {
+    background: transparent;
+    border: none;
+    color: #F8F8F2;
+    font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+    font-size: var(--fs-xs);
+    outline: none;
+    width: 70%;
+    padding: 0;
   }
   
-  .delay-5 {
-    opacity: 0;
-    animation: fade-in 0.5s ease forwards;
-    animation-delay: 7.5s;
+  .terminal-error {
+    color: #FF5555;
+    margin-bottom: var(--space-sm);
   }
   
-  @keyframes cursor-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+  .terminal-section {
+    margin-bottom: var(--space-md);
   }
   
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @media (max-width: 992px) {
-    .skills-list {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  
+  /* Responsive styles */
   @media (max-width: 768px) {
-    .about-content {
-      grid-template-columns: 1fr;
-      gap: var(--space-md);
+    .skills-grid {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
     
-    .about-image-container {
-      order: -1;
-      margin-bottom: var(--space-sm);
-    }
-    
-    .about-image-wrapper {
-      max-width: 200px;
-    }
-    
-    .section-title::after {
-      width: 100px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .skills-list {
-      grid-template-columns: 1fr;
+    .terminal-input {
+      width: 60%;
     }
   }
 </style> 

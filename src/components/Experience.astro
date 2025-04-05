@@ -42,52 +42,35 @@ const experiences = [
 <section id="experience" class="section experience">
   <div class="container">
     <h2 class="section-title">
-      <span class="text-accent">03.</span> Work Experience
+      <span class="text-accent">03.</span> Where I've Worked
     </h2>
     
-    <div class="terminal-container js-fade-in">
-      <div class="terminal-header">
-        <div class="terminal-buttons">
-          <span class="terminal-button"></span>
-          <span class="terminal-button"></span>
-          <span class="terminal-button"></span>
-        </div>
-        <div class="terminal-title">experience.log</div>
-      </div>
-      
-      <div class="terminal-body">
-        <div class="terminal-line">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">cat experience.log</span>
-        </div>
-        
-        {experiences.map((job, index) => (
-          <div class={`job-entry delay-${index + 1}`}>
-            <div class="job-header">
-              <span class="terminal-prompt">→</span> 
-              <span class="job-title">{job.title}</span> 
-              <span class="text-accent">@</span> 
-              <span class="job-company">{job.company}</span>
-            </div>
-            <div class="job-period"><span class="terminal-comment"># {job.period}</span></div>
-            <div class="job-description">
-              <ul class="job-list">
-                {job.description.map((item) => (
-                  <li class="job-item"><span class="terminal-prompt">$</span> {item}</li>
+    <div class="experience-container">
+      <div class="experience-timeline">
+        {experiences.map((exp, index) => (
+          <div class="timeline-item js-timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content glass-effect">
+              <div class="timeline-header">
+                <h3 class="timeline-title">
+                  <span>{exp.title}</span> <span class="text-accent">@ {exp.company}</span>
+                </h3>
+                <p class="timeline-period">{exp.period}</p>
+              </div>
+              <ul class="timeline-description">
+                {exp.description.map((item) => (
+                  <li>{item}</li>
                 ))}
               </ul>
-            </div>
-            <div class="job-tech">
-              <span class="terminal-keyword">TECH:</span> 
-              {job.technologies.map((tech, i) => (
-                <span class="tech-badge">{tech}{i < job.technologies.length - 1 ? ',' : ''}</span>
-              ))}
+              <div class="timeline-technologies">
+                {exp.technologies.map((tech) => (
+                  <span class="technology-tag">{tech}</span>
+                ))}
+              </div>
             </div>
           </div>
         ))}
-        
-        <div class="terminal-line terminal-end delay-4">
-          <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-blinking-cursor"></span>
-        </div>
+        <div class="timeline-line"></div>
       </div>
     </div>
   </div>
@@ -109,13 +92,22 @@ const experiences = [
           easing: 'easeOutExpo'
         });
         
-        // Animate the terminal container
+        // Animate timeline line
         anime({
-          targets: '.terminal-container',
+          targets: '.timeline-line',
+          scaleY: [0, 1],
           opacity: [0, 1],
-          translateY: [30, 0],
+          duration: 1000,
+          easing: 'easeInOutQuart'
+        });
+        
+        // Animate timeline items
+        anime({
+          targets: '.js-timeline-item',
+          opacity: [0, 1],
+          translateX: [50, 0],
+          delay: anime.stagger(200),
           duration: 800,
-          delay: 300,
           easing: 'easeOutExpo'
         });
         
@@ -140,8 +132,9 @@ const experiences = [
   .section-title {
     display: flex;
     align-items: center;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
     font-size: var(--fs-lg);
+    opacity: 0;
   }
   
   .section-title::after {
@@ -151,207 +144,149 @@ const experiences = [
     width: 250px;
     background: linear-gradient(90deg, var(--color-accent), transparent);
     margin-left: var(--space-sm);
+    opacity: 0.5;
   }
   
-  /* Terminal Styling */
-  .terminal-container {
-    background-color: #121a29;
-    border-radius: 6px;
-    overflow: hidden;
-    font-family: 'JetBrains Mono', 'Roboto Mono', 'Courier New', monospace;
-    border: 1px solid rgba(58, 134, 255, 0.2);
-    margin: 0 auto;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  .experience-container {
+    display: flex;
+    justify-content: center;
+    padding: var(--space-md) 0;
+  }
+  
+  .experience-timeline {
+    position: relative;
+    max-width: 800px;
+    width: 100%;
+  }
+  
+  .timeline-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 15px;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+      var(--color-accent) 0%, 
+      rgba(58, 134, 255, 0.5) 50%, 
+      rgba(58, 134, 255, 0.2) 100%);
+    transform-origin: top;
     opacity: 0;
   }
   
-  .terminal-header {
-    background-color: #0d141e;
-    padding: var(--space-xs) var(--space-sm);
+  .timeline-item {
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid rgba(58, 134, 255, 0.1);
+    margin-bottom: var(--space-lg);
+    position: relative;
+    opacity: 0;
   }
   
-  .terminal-buttons {
-    display: flex;
-    gap: 6px;
-    margin-right: var(--space-sm);
-  }
-  
-  .terminal-button {
-    width: 12px;
-    height: 12px;
+  .timeline-marker {
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    background-color: #ff5f56;
+    border: 2px solid var(--color-accent);
+    background-color: var(--color-bg-alt);
+    margin-right: var(--space-md);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
   }
   
-  .terminal-button:nth-child(2) {
-    background-color: #ffbd2e;
+  .timeline-marker::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-accent);
+    border-radius: 50%;
   }
   
-  .terminal-button:nth-child(3) {
-    background-color: #27c93f;
-  }
-  
-  .terminal-title {
-    font-size: var(--fs-xs);
-    color: var(--color-text-muted);
-  }
-  
-  .terminal-body {
+  .timeline-content {
+    flex: 1;
     padding: var(--space-md);
-    color: var(--color-text);
-    font-size: var(--fs-xs);
+    border-radius: 8px;
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+  
+  .timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .timeline-header {
+    margin-bottom: var(--space-md);
+  }
+  
+  .timeline-title {
+    font-size: var(--fs-md);
+    font-weight: var(--fw-medium);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .timeline-period {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+  }
+  
+  .timeline-description {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-md) 0;
+  }
+  
+  .timeline-description li {
+    position: relative;
+    padding-left: var(--space-md);
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-muted);
     line-height: 1.6;
   }
   
-  .terminal-line {
-    margin-bottom: var(--space-sm);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-  }
-  
-  .terminal-end {
-    margin-top: var(--space-md);
-  }
-  
-  .terminal-prompt {
+  .timeline-description li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
     color: var(--color-accent);
-    margin-right: var(--space-xs);
   }
   
-  .terminal-command {
-    color: var(--color-text);
-  }
-  
-  .terminal-comment {
-    color: #8D99AE;
-    font-style: italic;
-  }
-  
-  .terminal-keyword {
-    color: #FF79C6;
-    margin-right: var(--space-xs);
-  }
-  
-  .terminal-blinking-cursor {
-    display: inline-block;
-    width: 10px;
-    height: 16px;
-    background-color: var(--color-accent);
-    animation: cursor-blink 1s infinite;
-  }
-  
-  @keyframes cursor-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-  
-  /* Job Entry Styling */
-  .job-entry {
-    margin-bottom: var(--space-md);
-    padding: var(--space-sm);
-    border-radius: 4px;
-    background-color: rgba(10, 14, 23, 0.5);
-    border-left: 2px solid var(--color-accent);
-    opacity: 0;
-    animation: fade-in 0.5s ease forwards;
-  }
-  
-  .delay-1 {
-    animation-delay: 0.5s;
-  }
-  
-  .delay-2 {
-    animation-delay: 1s;
-  }
-  
-  .delay-3 {
-    animation-delay: 1.5s;
-  }
-  
-  .delay-4 {
-    opacity: 0;
-    animation: fade-in 0.5s ease forwards;
-    animation-delay: 2s;
-  }
-  
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  .job-header {
+  .timeline-technologies {
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    gap: var(--space-xxs);
-    margin-bottom: var(--space-xs);
-  }
-  
-  .job-title {
-    font-weight: var(--fw-medium);
-    color: #FFF;
-  }
-  
-  .job-company {
-    color: #50FA7B;
-  }
-  
-  .job-period {
-    margin-bottom: var(--space-xs);
-    font-size: var(--fs-xs);
-  }
-  
-  .job-description {
-    margin-bottom: var(--space-xs);
-  }
-  
-  .job-list {
-    list-style: none;
-    padding-left: var(--space-sm);
-  }
-  
-  .job-item {
-    margin-bottom: var(--space-xs);
-    font-size: var(--fs-xs);
-    color: var(--color-text-muted);
-    display: flex;
-    align-items: flex-start;
     gap: var(--space-xs);
+    margin-top: var(--space-sm);
   }
   
-  .job-item .terminal-prompt {
-    margin-top: 2px;
-  }
-  
-  .job-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xxs);
+  .technology-tag {
+    background-color: rgba(58, 134, 255, 0.1);
+    color: var(--color-text-muted);
     font-size: var(--fs-xs);
-    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid rgba(58, 134, 255, 0.2);
   }
   
-  .tech-badge {
-    color: #FFB86C;
-  }
-  
+  /* Responsive styles */
   @media (max-width: 768px) {
-    .experience {
-      margin-top: var(--space-xl);
-    }
-    
     .section-title::after {
       width: 100px;
     }
     
-    .job-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-xxs);
+    .timeline-marker {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .timeline-marker::before {
+      width: 8px;
+      height: 8px;
+    }
+    
+    .timeline-line {
+      left: 11px;
     }
   }
 </style> 
