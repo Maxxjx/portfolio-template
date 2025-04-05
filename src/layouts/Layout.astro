@@ -1,130 +1,161 @@
 ---
 interface Props {
-	title?: string;
-	description?: string;
+  title?: string;
+  description?: string;
+  image?: string;
 }
 
-const { title = "Portfolio | Dark Minimalist Design", description = "A dark-themed minimalist portfolio with blue accents creating a dramatic, immersive experience." } = Astro.props;
+const {
+  title = "John Doe | Full Stack Developer",
+  description = "Portfolio website showcasing my work as a full stack developer",
+  image = "/og-image.jpg"
+} = Astro.props;
+
+// Safe URL construction
+const canonicalURL = Astro.site 
+  ? new URL(Astro.url.pathname, Astro.site)
+  : new URL(`http://localhost:${process.env.PORT || 3000}${Astro.url.pathname}`);
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content={description} />
-		
-		<!-- Open Graph / Social Media Meta Tags -->
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://yourportfolio.com" />
-		<meta property="og:image" content="/social-preview.jpg" />
-		
-		<!-- Google Fonts: Montserrat (Light, Regular) and Roboto -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-		
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-		<!-- Cursor Effect Div -->
-		<div class="cursor-dot-outline"></div>
-		<div class="cursor-dot"></div>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet" />
+    
+    <meta name="theme-color" content="#0a192f" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <!-- Cursor Effect Div -->
+    <div class="cursor-dot-outline"></div>
+    <div class="cursor-dot"></div>
+  </body>
 </html>
 
 <script>
-	// Custom cursor effect
-	document.addEventListener('DOMContentLoaded', () => {
-		const cursor = document.querySelector('.cursor-dot');
-		const cursorOutline = document.querySelector('.cursor-dot-outline');
-		
-		if (cursor && cursorOutline && window.innerWidth > 768) {
-			document.addEventListener('mousemove', (e) => {
-				cursor.style.left = e.clientX + 'px';
-				cursor.style.top = e.clientY + 'px';
-				
-				// Smoother movement for the outline with a slight delay
-				setTimeout(() => {
-					cursorOutline.style.left = e.clientX + 'px';
-					cursorOutline.style.top = e.clientY + 'px';
-				}, 80);
-			});
-			
-			// Show cursor when mouse enters the window
-			document.addEventListener('mouseenter', () => {
-				cursor.style.opacity = 1;
-				cursorOutline.style.opacity = 1;
-			});
-			
-			// Hide cursor when mouse leaves the window
-			document.addEventListener('mouseleave', () => {
-				cursor.style.opacity = 0;
-				cursorOutline.style.opacity = 0;
-			});
-			
-			// Scale effects for interactive elements
-			const interactiveElements = document.querySelectorAll('a, button, input, textarea, [role="button"]');
-			interactiveElements.forEach(el => {
-				el.addEventListener('mouseenter', () => {
-					cursor.style.transform = 'translate(-50%, -50%) scale(0.5)';
-					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
-				});
-				
-				el.addEventListener('mouseleave', () => {
-					cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-					cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
-				});
-			});
-			
-			// Show cursor
-			setTimeout(() => {
-				cursor.style.opacity = 1;
-				cursorOutline.style.opacity = 1;
-			}, 1000);
-		}
-	});
+  import anime from 'animejs';
+  
+  // Custom cursor effect
+  document.addEventListener('DOMContentLoaded', () => {
+    const cursor = document.querySelector('.cursor-dot') as HTMLElement;
+    const cursorOutline = document.querySelector('.cursor-dot-outline') as HTMLElement;
+    
+    if (cursor && cursorOutline && window.innerWidth > 768) {
+      document.addEventListener('mousemove', (e: MouseEvent) => {
+        if (cursor?.style && cursorOutline?.style) {
+          cursor.style.left = e.clientX + 'px';
+          cursor.style.top = e.clientY + 'px';
+          
+          // Smoother movement for the outline with a slight delay
+          setTimeout(() => {
+            if (cursorOutline?.style) {
+              cursorOutline.style.left = e.clientX + 'px';
+              cursorOutline.style.top = e.clientY + 'px';
+            }
+          }, 80);
+        }
+      });
+      
+      // Show/hide cursor events
+      document.addEventListener('mouseenter', () => {
+        if (cursor?.style && cursorOutline?.style) {
+          cursor.style.opacity = '1';
+          cursorOutline.style.opacity = '1';
+        }
+      });
+      
+      document.addEventListener('mouseleave', () => {
+        if (cursor?.style && cursorOutline?.style) {
+          cursor.style.opacity = '0';
+          cursorOutline.style.opacity = '0';
+        }
+      });
+      
+      // Scale effects for interactive elements
+      const interactiveElements = document.querySelectorAll('a, button, input, textarea, [role="button"]');
+      interactiveElements.forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          if (cursor?.style && cursorOutline?.style) {
+            cursor.style.transform = 'translate(-50%, -50%) scale(0.5)';
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+          }
+        });
+        
+        el.addEventListener('mouseleave', () => {
+          if (cursor?.style && cursorOutline?.style) {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+          }
+        });
+      });
+      
+      // Show cursor with delay
+      setTimeout(() => {
+        if (cursor?.style && cursorOutline?.style) {
+          cursor.style.opacity = '1';
+          cursorOutline.style.opacity = '1';
+        }
+      }, 1000);
+    }
+  });
 </script>
 
 <style is:global>
-	@import "../styles/global.css";
-	
-	/* Add any global styles that need to override global.css here */
-	body {
-		overflow-x: hidden;
-		background-image: radial-gradient(circle at 50% 0%, rgba(58, 134, 255, 0.05) 0%, rgba(10, 14, 23, 0) 50%);
-	}
-	
-	main {
-		margin: 0 auto;
-		max-width: var(--container-max-width);
-	}
-	
-	section {
-		padding-top: calc(var(--space-xl) * 0.8);
-		padding-bottom: calc(var(--space-xl) * 0.8);
-	}
-	
-	/* Refined cursor */
-	.cursor-dot {
-		width: 5px;
-		height: 5px;
-	}
-	
-	.cursor-dot-outline {
-		width: 25px;
-		height: 25px;
-	}
-	
-	/* Hide cursor on mobile */
-	@media (max-width: 768px) {
-		.cursor-dot, .cursor-dot-outline {
-			display: none;
-		}
-	}
+  @import "../styles/global.css";
+  
+  /* Add any global styles that need to override global.css here */
+  body {
+    overflow-x: hidden;
+    background-image: radial-gradient(circle at 50% 0%, rgba(58, 134, 255, 0.05) 0%, rgba(10, 14, 23, 0) 50%);
+  }
+  
+  main {
+    margin: 0 auto;
+    max-width: var(--container-max-width);
+  }
+  
+  section {
+    padding-top: calc(var(--space-xl) * 0.8);
+    padding-bottom: calc(var(--space-xl) * 0.8);
+  }
+  
+  /* Refined cursor */
+  .cursor-dot {
+    width: 5px;
+    height: 5px;
+  }
+  
+  .cursor-dot-outline {
+    width: 25px;
+    height: 25px;
+  }
+  
+  /* Hide cursor on mobile */
+  @media (max-width: 768px) {
+    .cursor-dot, .cursor-dot-outline {
+      display: none;
+    }
+  }
 </style>

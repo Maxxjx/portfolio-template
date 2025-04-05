@@ -1,0 +1,92 @@
+---
+interface CommandHistory {
+  command: string;
+  output: string;
+}
+
+let commandHistory: CommandHistory[] = [];
+---
+
+<div 
+  class="terminal" 
+  role="region" 
+  aria-label="Interactive terminal interface"
+>
+  <div class="terminal-history">
+    {commandHistory.map((item) => (
+      <div class="terminal-item">
+        <span class="prompt">$</span>
+        <span class="command">{item.command}</span>
+        <div class="output">{item.output}</div>
+      </div>
+    ))}
+  </div>
+  
+  <div class="terminal-input-container">
+    <span class="prompt">$</span>
+    <input
+      type="text"
+      class="terminal-input"
+      aria-label="Terminal command input"
+      id="terminal-input"
+    />
+  </div>
+</div>
+
+<script>
+  const terminalInput = document.getElementById('terminal-input') as HTMLInputElement;
+  const history: string[] = [];
+  let historyIndex = -1;
+
+  if (terminalInput) {
+    terminalInput.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowUp') {
+        historyIndex = Math.min(historyIndex + 1, history.length - 1);
+        if (historyIndex >= 0) {
+          terminalInput.value = history[historyIndex];
+        }
+      }
+      if (e.key === 'ArrowDown') {
+        historyIndex = Math.max(historyIndex - 1, -1);
+        terminalInput.value = historyIndex >= 0 ? history[historyIndex] : '';
+      }
+    });
+  }
+</script>
+
+<style>
+  .terminal {
+    // ...existing code...
+  }
+
+  .terminal-history {
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: 300px;
+  }
+
+  .terminal-item {
+    margin-bottom: 0.5rem;
+  }
+
+  .prompt {
+    color: var(--accent-color);
+    margin-right: 0.5rem;
+  }
+
+  .terminal-input-container {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
+
+  .terminal-input {
+    background: transparent;
+    border: none;
+    color: var(--terminal-text);
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    outline: none;
+  }
+</style>

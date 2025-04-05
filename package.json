@@ -11,5 +11,8 @@
   "dependencies": {
     "animejs": "^3.2.2",
     "astro": "^5.6.1"
+  },
+  "devDependencies": {
+    "@types/animejs": "^3.1.13"
   }
 }

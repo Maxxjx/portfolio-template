@@ -1,0 +1,127 @@
+---
+import { Image } from '@astrojs/image/components';
+---
+
+<div class="profile">
+  <div class="profile-image">
+    <Image
+      src="/profile.jpg"
+      alt="Profile picture"
+      width={200}
+      height={200}
+      format="webp"
+      loading="lazy"
+    />
+  </div>
+  <div class="profile-content">
+    <span class="greeting">Hi, my name is</span>
+    <h1>John Doe</h1>
+    <h2>Software Engineer</h2>
+    <p class="bio">Passionate about building scalable web applications and working with modern web technologies.</p>
+    <div class="actions">
+      <a href="#contact" class="btn primary">Get In Touch</a>
+      <a href="#projects" class="btn secondary">View Work</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .profile {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 2rem;
+  }
+
+  .profile-image {
+    position: relative;
+  }
+
+  .profile-image img {
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(var(--accent-color-rgb), 0.1);
+    transition: transform 0.3s ease;
+  }
+
+  .profile-image:hover img {
+    transform: translateY(-5px);
+  }
+
+  .profile-content {
+    max-width: 600px;
+  }
+
+  .greeting {
+    color: var(--accent-color);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    line-height: 1.1;
+    margin: 0;
+    background: linear-gradient(45deg, var(--text-primary), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    color: var(--text-secondary);
+    margin: 0.5rem 0 1.5rem;
+    font-weight: 500;
+  }
+
+  .bio {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn.primary {
+    background-color: var(--accent-color);
+    color: var(--primary-bg);
+  }
+
+  .btn.secondary {
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .profile {
+      flex-direction: column;
+      text-align: center;
+      padding: 4rem 1rem;
+      gap: 2rem;
+    }
+
+    .actions {
+      justify-content: center;
+    }
+  }
+</style>
