@@ -204,6 +204,7 @@ const allTechnologies = [...new Set(
         <div class="project-card" 
           data-technologies={project.technologies.join(',')}
           data-theme-colors={JSON.stringify(project.themeColors)}>
+          <div class="project-card-border"></div>
           <div class="card-header">
             <div class="card-folder-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
@@ -449,12 +450,19 @@ const allTechnologies = [...new Set(
           techTags.forEach(tag => {
             tag.style.setProperty('--tag-color', colors.accent);
           });
+
+          // Create background glow element
+          const glowEffect = document.createElement('div');
+          glowEffect.classList.add('project-glow-effect');
+          project.style.position = 'relative';
+          project.style.zIndex = '1';
+          project.prepend(glowEffect);
           
           // Apply hover effects
           project.addEventListener('mouseenter', () => {
-            // Background color transition for the section
-            projectSection.style.background = `linear-gradient(to bottom, rgba(10, 14, 23, 0.9), rgba(10, 14, 23, 0.97)), 
-                                              radial-gradient(circle at center, ${colors.primary}15 0%, transparent 70%)`;
+            // Add theme-specific glow effect to the project
+            glowEffect.style.background = `radial-gradient(circle at center, ${colors.primary}20 0%, transparent 70%)`;
+            glowEffect.style.opacity = '1';
             
             // Enhance project card with theme color
             if (project.classList.contains('project-card')) {
@@ -472,6 +480,12 @@ const allTechnologies = [...new Set(
               if (folderIcon) {
                 folderIcon.style.color = colors.primary;
               }
+
+              // Customize top border gradient
+              const borderEl = project.querySelector('.project-card-border');
+              if (borderEl) {
+                borderEl.style.background = `linear-gradient(90deg, ${colors.primary}, ${colors.accent}88, transparent)`;
+              }
             } else {
               // For featured projects
               project.style.borderColor = `${colors.primary}50`;
@@ -480,8 +494,8 @@ const allTechnologies = [...new Set(
           });
           
           project.addEventListener('mouseleave', () => {
-            // Reset background
-            projectSection.style.background = '';
+            // Hide glow effect
+            glowEffect.style.opacity = '0';
             
             if (project.classList.contains('project-card')) {
               anime({
@@ -497,6 +511,12 @@ const allTechnologies = [...new Set(
               const folderIcon = project.querySelector('.card-folder-icon svg');
               if (folderIcon) {
                 folderIcon.style.color = 'var(--color-accent)';
+              }
+
+              // Reset top border gradient
+              const borderEl = project.querySelector('.project-card-border');
+              if (borderEl) {
+                borderEl.style.background = 'linear-gradient(90deg, var(--color-accent), transparent)';
               }
             } else {
               // Reset for featured projects
@@ -516,7 +536,20 @@ const allTechnologies = [...new Set(
 <style>
   .projects {
     margin-top: calc(var(--space-xl) * 1.5);
-    transition: background 0.5s ease-in-out;
+    position: relative;
+  }
+  
+  .project-glow-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    border-radius: inherit;
+    pointer-events: none;
   }
   
   .section-title {
@@ -835,13 +868,29 @@ const allTechnologies = [...new Set(
     transition: transform var(--transition-normal);
   }
   
+  .project-card-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--transition-normal), background var(--transition-normal);
+  }
+  
+  .project-card:hover .project-card-border {
+    transform: scaleX(1);
+  }
+  
   .project-card:hover {
     transform: translateY(-10px);
     border-color: rgba(58, 134, 255, 0.3);
   }
   
   .project-card:hover::before {
-    transform: scaleX(1);
+    transform: scaleX(0); /* Disable the original border since we now use project-card-border */
   }
   
   .card-header {
