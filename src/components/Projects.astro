@@ -7,7 +7,8 @@ const featuredProjects = [
     image: "/projects/ecommerce.jpg",
     github: "#",
     liveLink: "#",
-    featured: true
+    featured: true,
+    color: "#3A86FF" // Blue theme
   },
   {
     title: "Portfolio Website Template",
@@ -16,7 +17,8 @@ const featuredProjects = [
     image: "/projects/portfolio.jpg",
     github: "#",
     liveLink: "#",
-    featured: true
+    featured: true,
+    color: "#8A2BE2" // Purple theme
   },
   {
     title: "Task Management Application",
@@ -25,7 +27,8 @@ const featuredProjects = [
     image: "/projects/taskmanager.jpg",
     github: "#",
     liveLink: "#",
-    featured: true
+    featured: true,
+    color: "#00BFA6" // Teal theme
   }
 ];
 
@@ -35,42 +38,48 @@ const otherProjects = [
     description: "A weather forecast application that provides current and 5-day weather information based on user location or search.",
     technologies: ["JavaScript", "OpenWeather API", "HTML5", "CSS3"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    color: "#FF9F1C" // Orange theme
   },
   {
     title: "Blog Platform",
     description: "A full-stack blog platform with user authentication, markdown support, commenting system, and content management.",
     technologies: ["Next.js", "GraphQL", "PostgreSQL", "Tailwind CSS"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    color: "#E63946" // Red theme
   },
   {
     title: "Browser Extension",
     description: "A productivity browser extension that helps users track time spent on different websites and set limits.",
     technologies: ["JavaScript", "Chrome API", "Local Storage", "CSS3"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    color: "#4CC9F0" // Light blue theme
   },
   {
     title: "Fitness Tracker",
     description: "A mobile-friendly workout tracking application with progress visualization, workout plans, and exercise library.",
     technologies: ["React", "Node.js", "Chart.js", "MongoDB"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    color: "#06D6A0" // Green theme
   },
   {
     title: "Recipe Finder",
     description: "An application that helps users find recipes based on available ingredients, dietary restrictions, and cooking time.",
     technologies: ["Vue.js", "Spoonacular API", "Vuex", "SCSS"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    color: "#D100A3" // Pink theme
   },
   {
     title: "Social Media Dashboard",
     description: "An analytics dashboard that aggregates data from multiple social media platforms into a unified interface.",
     technologies: ["React", "D3.js", "Social Media APIs", "Material UI"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    color: "#7209B7" // Deep purple theme
   }
 ];
 
@@ -99,8 +108,18 @@ const allTechnologies = [...new Set(
     
     <div class="featured-projects">
       {featuredProjects.map((project, index) => (
-        <div class="featured-project js-fade-in" data-technologies={project.technologies.join(',')}>
+        <div 
+          class="featured-project js-fade-in" 
+          data-technologies={project.technologies.join(',')}
+          data-color={project.color}
+          style={`--project-color: ${project.color}`}
+        >
           <div class="project-content">
+            <div class="color-preview">
+              <span style={`background-color: ${project.color}`}></span>
+              <span style={`background-color: ${project.color}33`}></span>
+              <span style={`background-color: ${project.color}1A`}></span>
+            </div>
             <p class="project-overline">Featured Project</p>
             <h3 class="project-title">{project.title}</h3>
             <div class="project-description">
@@ -139,8 +158,18 @@ const allTechnologies = [...new Set(
     
     <div class="project-grid js-fade-in">
       {otherProjects.map((project) => (
-        <div class="project-card" data-technologies={project.technologies.join(',')}>
+        <div 
+          class="project-card" 
+          data-technologies={project.technologies.join(',')}
+          data-color={project.color}
+          style={`--project-color: ${project.color}`}
+        >
           <div class="card-header">
+            <div class="color-preview">
+              <span style={`background-color: ${project.color}`}></span>
+              <span style={`background-color: ${project.color}33`}></span>
+              <span style={`background-color: ${project.color}1A`}></span>
+            </div>
             <div class="card-folder-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
@@ -264,6 +293,64 @@ const allTechnologies = [...new Set(
       });
     });
     
+    // Project color theme hover effects
+    const projectElements = document.querySelectorAll('.featured-project, .project-card');
+    const projectsContainer = document.querySelector('#projects');
+    let currentProjectColor = null;
+    
+    projectElements.forEach(project => {
+      const color = project.dataset.color;
+      
+      project.addEventListener('mouseenter', () => {
+        currentProjectColor = color;
+        
+        // Apply subtle color shift to background
+        anime({
+          targets: projectsContainer,
+          backgroundColor: [
+            'rgba(10, 14, 23, 1)', 
+            `rgba(10, 14, 23, 0.95)`
+          ],
+          duration: 400,
+          easing: 'easeOutQuad'
+        });
+        
+        // Apply color glow to the hovered project
+        anime({
+          targets: project,
+          boxShadow: [
+            '0 15px 30px rgba(0, 0, 0, 0.2)',
+            `0 15px 30px ${color}22, 0 0 15px ${color}11`
+          ],
+          borderColor: [
+            'rgba(58, 134, 255, 0.1)',
+            `${color}33`
+          ],
+          duration: 400,
+          easing: 'easeOutQuad'
+        });
+      });
+      
+      project.addEventListener('mouseleave', () => {
+        // Reset background color
+        anime({
+          targets: projectsContainer,
+          backgroundColor: 'rgba(10, 14, 23, 1)',
+          duration: 600,
+          easing: 'easeOutQuad'
+        });
+        
+        // Reset project glow
+        anime({
+          targets: project,
+          boxShadow: '0 15px 30px rgba(0, 0, 0, 0.2)',
+          borderColor: 'rgba(58, 134, 255, 0.1)',
+          duration: 600,
+          easing: 'easeOutQuad'
+        });
+      });
+    });
+    
     // Project filtering functionality
     const filterButtons = document.querySelectorAll('.filter-button');
     const featuredProjects = document.querySelectorAll('.featured-project');
@@ -361,35 +448,14 @@ const allTechnologies = [...new Set(
         isShowingAll = !isShowingAll;
       });
     }
-    
-    // Enhanced hover effects for project cards
-    projectCards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        anime({
-          targets: card,
-          translateY: -10,
-          boxShadow: '0 15px 30px rgba(0, 0, 0, 0.3)',
-          duration: 300,
-          easing: 'easeOutQuad'
-        });
-      });
-      
-      card.addEventListener('mouseleave', () => {
-        anime({
-          targets: card,
-          translateY: 0,
-          boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
-          duration: 300,
-          easing: 'easeOutQuad'
-        });
-      });
-    });
   });
 </script>
 
 <style>
   .projects {
     margin-top: calc(var(--space-xl) * 1.5);
+    position: relative;
+    transition: background-color 0.4s ease;
   }
   
   .section-title {
@@ -439,6 +505,21 @@ const allTechnologies = [...new Set(
     color: var(--color-accent);
   }
   
+  /* Color preview */
+  .color-preview {
+    display: flex;
+    gap: 4px;
+    margin-bottom: var(--space-xs);
+  }
+  
+  .color-preview span {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
   /* Featured Projects */
   .featured-projects {
     display: flex;
@@ -462,7 +543,7 @@ const allTechnologies = [...new Set(
   
   .featured-project:hover {
     background-color: rgba(18, 26, 41, 0.6);
-    border-color: rgba(58, 134, 255, 0.1);
+    border-color: rgba(var(--project-color), 0.1);
     transform: translateY(-5px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   }
@@ -487,6 +568,10 @@ const allTechnologies = [...new Set(
   
   .featured-project:nth-child(even) .project-content {
     text-align: right;
+  }
+  
+  .featured-project:nth-child(even) .color-preview {
+    justify-content: flex-end;
   }
   
   .featured-project:nth-child(even) .project-tech-list {
@@ -522,11 +607,11 @@ const allTechnologies = [...new Set(
   
   .featured-project:hover .project-description {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-    border-color: rgba(58, 134, 255, 0.2);
+    border-color: var(--project-color, rgba(58, 134, 255, 0.2));
   }
   
   .project-overline {
-    color: var(--color-accent);
+    color: var(--project-color, var(--color-accent));
     font-family: var(--font-mono);
     font-size: var(--fs-xs);
     font-weight: var(--fw-normal);
@@ -553,6 +638,12 @@ const allTechnologies = [...new Set(
     font-size: var(--fs-xs);
     font-family: var(--font-mono);
     white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+  
+  .featured-project:hover .project-tech-list li {
+    color: var(--project-color, var(--color-text-muted));
+    opacity: 0.8;
   }
   
   .project-links {
@@ -566,7 +657,7 @@ const allTechnologies = [...new Set(
   }
   
   .project-link:hover {
-    color: var(--color-accent);
+    color: var(--project-color, var(--color-accent));
     transform: translateY(-2px);
   }
   
@@ -605,8 +696,9 @@ const allTechnologies = [...new Set(
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(58, 134, 255, 0.1);
+    background-color: var(--project-color, rgba(58, 134, 255, 0.1));
     z-index: 1;
+    opacity: 0.2;
     transition: all var(--transition-normal);
   }
   
@@ -654,7 +746,7 @@ const allTechnologies = [...new Set(
     left: 0;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, var(--color-accent), transparent);
+    background: var(--project-color, linear-gradient(90deg, var(--color-accent), transparent));
     transform: scaleX(0);
     transform-origin: left;
     transition: transform var(--transition-normal);
@@ -662,7 +754,7 @@ const allTechnologies = [...new Set(
   
   .project-card:hover {
     transform: translateY(-10px);
-    border-color: rgba(58, 134, 255, 0.3);
+    border-color: var(--project-color, rgba(58, 134, 255, 0.3));
   }
   
   .project-card:hover::before {
@@ -673,12 +765,11 @@ const allTechnologies = [...new Set(
     display: flex;
     justify-content: space-between;
     align-items: center;
-    align-items: center;
     margin-bottom: var(--space-md);
   }
   
   .card-folder-icon svg {
-    color: var(--color-accent);
+    color: var(--project-color, var(--color-accent));
     width: 36px;
     height: 36px;
   }
@@ -694,7 +785,7 @@ const allTechnologies = [...new Set(
   }
   
   .card-link:hover {
-    color: var(--color-accent);
+    color: var(--project-color, var(--color-accent));
     transform: translateY(-2px);
   }
   
@@ -715,7 +806,7 @@ const allTechnologies = [...new Set(
   }
   
   .card-title a:hover {
-    color: var(--color-accent);
+    color: var(--project-color, var(--color-accent));
   }
   
   .card-description {
@@ -739,6 +830,11 @@ const allTechnologies = [...new Set(
     color: var(--color-text-muted);
     font-size: var(--fs-xs);
     font-family: var(--font-mono);
+  }
+  
+  .project-card:hover .card-tech-list li {
+    color: var(--project-color, var(--color-text-muted));
+    opacity: 0.8;
   }
   
   .projects-more {
@@ -789,6 +885,10 @@ const allTechnologies = [...new Set(
     }
     
     .featured-project:nth-child(even) .project-links {
+      justify-content: flex-start;
+    }
+    
+    .featured-project:nth-child(even) .color-preview {
       justify-content: flex-start;
     }
     

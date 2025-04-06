@@ -1,11 +1,32 @@
 <section id="hero" class="hero">
-  <div class="particle-container" id="particles-js"></div>
+  <div class="blueprint-grid">
+    <div class="grid-horizontal"></div>
+    <div class="grid-vertical"></div>
+  </div>
+  <div class="blueprint-circles">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
   <div class="container">
     <div class="hero-content">
+      <div class="blueprint-label top-left">
+        <span class="blueprint-text">PORTFOLIO_V2.0</span>
+        <div class="blueprint-line horizontal"></div>
+      </div>
       <p class="hero-greeting js-animate">Hello, I am</p>
       <h1 class="hero-name js-animate">
         <span class="text-gradient">John Doe</span>
+        <div class="name-underline"></div>
       </h1>
+      <div class="blueprint-specs">
+        <div class="spec-line"></div>
+        <div class="spec-detail">
+          <span>FRONTEND DEVELOPER</span>
+          <span>CREATIVE CODER</span>
+          <span>UI SPECIALIST</span>
+        </div>
+      </div>
       <h2 class="hero-headline js-animate">I craft digital experiences.</h2>
       <p class="hero-description js-animate">
         I'm a creative web developer focused on building clean, 
@@ -16,6 +37,10 @@
         <a href="#projects" class="button primary">Explore My Work</a>
       </div>
     </div>
+  </div>
+  <div class="blueprint-label bottom-right">
+    <div class="blueprint-line vertical"></div>
+    <span class="blueprint-text">REV_2023</span>
   </div>
   <div class="scroll-indicator">
     <div class="mouse">
@@ -31,6 +56,56 @@
   import anime from 'animejs';
 
   document.addEventListener('DOMContentLoaded', () => {
+    // Blueprint grid animation
+    anime.timeline({
+      easing: 'easeOutSine',
+    })
+    .add({
+      targets: '.grid-horizontal',
+      opacity: [0, 0.3],
+      duration: 1000,
+    })
+    .add({
+      targets: '.grid-vertical',
+      opacity: [0, 0.3],
+      duration: 1000,
+    }, '-=800')
+    .add({
+      targets: '.blueprint-circles .circle',
+      scale: [0, 1],
+      opacity: [0, 0.5],
+      delay: anime.stagger(200),
+      duration: 1000
+    }, '-=800')
+    .add({
+      targets: '.blueprint-label',
+      opacity: [0, 1],
+      translateY: [10, 0],
+      duration: 800
+    }, '-=500')
+    .add({
+      targets: '.blueprint-line',
+      scaleX: [0, 1],
+      duration: 800
+    }, '-=400');
+    
+    // Animate the measurement specs
+    anime({
+      targets: '.spec-line',
+      width: [0, '100%'],
+      easing: 'easeOutExpo',
+      duration: 1200,
+      delay: 1300
+    });
+    
+    anime({
+      targets: '.spec-detail span',
+      opacity: [0, 1],
+      translateX: [10, 0],
+      delay: anime.stagger(200, {start: 1500}),
+      duration: 800
+    });
+    
     // Hero section animations
     const heroElements = document.querySelectorAll('.js-animate');
     
@@ -45,6 +120,15 @@
       duration: 1000
     });
     
+    // Animate the name underline
+    anime({
+      targets: '.name-underline',
+      width: [0, '100%'],
+      easing: 'easeInOutQuad',
+      duration: 1800,
+      delay: 1200
+    });
+    
     // Continuous scroll indicator animation
     anime({
       targets: '.wheel',
@@ -55,47 +139,37 @@
       loop: true
     });
     
-    // Load particles.js if it exists
-    if (typeof window.particlesJS !== 'undefined') {
-      window.particlesJS('particles-js', {
-        particles: {
-          number: { value: 50, density: { enable: true, value_area: 800 } },
-          color: { value: '#3A86FF' },
-          shape: { type: 'circle' },
-          opacity: { value: 0.2, random: true },
-          size: { value: 3, random: true },
-          line_linked: {
-            enable: true,
-            distance: 150,
-            color: '#3A86FF',
-            opacity: 0.15,
-            width: 1
-          },
-          move: {
-            enable: true,
-            speed: 1,
-            direction: 'none',
-            random: true,
-            straight: false,
-            out_mode: 'out',
-            bounce: false
-          }
-        },
-        interactivity: {
-          detect_on: 'canvas',
-          events: {
-            onhover: { enable: true, mode: 'grab' },
-            onclick: { enable: true, mode: 'push' },
-            resize: true
-          },
-          modes: {
-            grab: { distance: 140, line_linked: { opacity: 0.3 } },
-            push: { particles_nb: 3 }
-          }
-        },
-        retina_detect: true
+    // Mouse move ripple effect
+    const hero = document.querySelector('.hero');
+    hero.addEventListener('mousemove', (e) => {
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      // Move blueprint circles slightly for parallax effect
+      anime({
+        targets: '.circle-1',
+        translateX: x * 20,
+        translateY: y * 20,
+        duration: 800,
+        easing: 'easeOutQuad'
       });
-    }
+      
+      anime({
+        targets: '.circle-2',
+        translateX: x * -15,
+        translateY: y * -15,
+        duration: 800,
+        easing: 'easeOutQuad'
+      });
+      
+      anime({
+        targets: '.circle-3',
+        translateX: x * 10,
+        translateY: y * -10,
+        duration: 800,
+        easing: 'easeOutQuad'
+      });
+    });
   });
 </script>
 
@@ -109,7 +183,44 @@
     overflow: hidden;
   }
   
-  .particle-container {
+  /* Blueprint grid styling */
+  .blueprint-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .grid-horizontal,
+  .grid-vertical {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 40px 40px;
+    opacity: 0.3;
+  }
+  
+  .grid-horizontal {
+    background-image: linear-gradient(0deg, 
+      rgba(58, 134, 255, 0.1) 1px, 
+      transparent 1px
+    );
+  }
+  
+  .grid-vertical {
+    background-image: linear-gradient(90deg, 
+      rgba(58, 134, 255, 0.1) 1px, 
+      transparent 1px
+    );
+  }
+  
+  /* Blueprint circles */
+  .blueprint-circles {
     position: absolute;
     top: 0;
     left: 0;
@@ -118,6 +229,113 @@
     z-index: -1;
   }
   
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(58, 134, 255, 0.3);
+    opacity: 0.5;
+  }
+  
+  .circle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 5px;
+    background-color: rgba(58, 134, 255, 0.5);
+    border-radius: 50%;
+  }
+  
+  .circle-1 {
+    width: 300px;
+    height: 300px;
+    top: 25%;
+    right: 10%;
+  }
+  
+  .circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 15%;
+    left: 10%;
+  }
+  
+  .circle-3 {
+    width: 150px;
+    height: 150px;
+    top: 15%;
+    left: 30%;
+  }
+  
+  /* Blueprint labels */
+  .blueprint-label {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: rgba(58, 134, 255, 0.8);
+    z-index: 2;
+  }
+  
+  .blueprint-label.top-left {
+    top: 30px;
+    left: 30px;
+  }
+  
+  .blueprint-label.bottom-right {
+    bottom: 30px;
+    right: 30px;
+  }
+  
+  .blueprint-line {
+    height: 1px;
+    width: 100px;
+    background-color: rgba(58, 134, 255, 0.6);
+    margin: 0 10px;
+    transform-origin: left;
+  }
+  
+  .blueprint-line.vertical {
+    width: 1px;
+    height: 50px;
+    margin: 10px 0;
+    transform-origin: top;
+  }
+  
+  .blueprint-text {
+    white-space: nowrap;
+  }
+  
+  /* Specification measurements */
+  .blueprint-specs {
+    display: flex;
+    align-items: center;
+    margin: var(--space-sm) 0 var(--space-md) 0;
+  }
+  
+  .spec-line {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(58, 134, 255, 0.5);
+    margin-right: var(--space-sm);
+  }
+  
+  .spec-detail {
+    display: flex;
+    gap: var(--space-md);
+  }
+  
+  .spec-detail span {
+    font-family: 'Courier New', monospace;
+    font-size: var(--fs-xs);
+    color: rgba(58, 134, 255, 0.8);
+    white-space: nowrap;
+  }
+  
+  /* Regular hero content styling */
   .hero-content {
     max-width: 800px;
     position: relative;
@@ -141,6 +359,16 @@
     letter-spacing: -1px;
     font-weight: var(--fw-light);
     line-height: 1.1;
+    position: relative;
+  }
+  
+  .name-underline {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
   }
   
   .hero-headline {
@@ -247,8 +475,27 @@
       display: none;
     }
     
-    .hero-name {
-      font-size: clamp(var(--fs-xl), 15vw, var(--fs-xxl));
+    .blueprint-label.top-left {
+      top: 15px;
+      left: 15px;
+    }
+    
+    .blueprint-label.bottom-right {
+      bottom: 15px;
+      right: 15px;
+    }
+    
+    .spec-detail {
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    
+    .circle-1 {
+      right: -50px;
+    }
+    
+    .circle-2 {
+      left: -50px;
     }
   }
 </style>
