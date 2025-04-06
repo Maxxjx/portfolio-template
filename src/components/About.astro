@@ -5,6 +5,15 @@ const skills = {
   design: ["Figma", "Adobe XD", "UI/UX", "Responsive Design", "Animation", "Wireframing"],
   tools: ["Git", "Webpack", "Docker", "Jest", "GitHub Actions", "VS Code", "Linux", "AWS"]
 };
+
+const commands = [
+  { cmd: "help", description: "Show available commands" },
+  { cmd: "ls skills", description: "List skill categories" },
+  { cmd: "show frontend", description: "Display frontend skills" },
+  { cmd: "show backend", description: "Display backend skills" },
+  { cmd: "show tools", description: "Display tools & technologies" },
+  { cmd: "clear", description: "Clear the terminal" }
+];
 ---
 
 <section id="about" class="section about">
@@ -48,15 +57,35 @@ const skills = {
             <span class="terminal-button"></span>
           </div>
           <div class="terminal-title">skills.sh</div>
+          <div class="terminal-tabs">
+            <button class="terminal-tab" data-command="show frontend">Frontend</button>
+            <button class="terminal-tab" data-command="show backend">Backend</button>
+            <button class="terminal-tab" data-command="show tools">Tools</button>
+            <button class="terminal-tab" data-command="ls skills">All Skills</button>
+          </div>
         </div>
         
         <div class="terminal-body">
           <p class="terminal-instructions">
-            Type commands in the terminal below to explore my skills:
+            Type a command below or click a tab to explore my skills:
           </p>
           
+          <!-- Empty terminal section (default) -->
+          <div id="terminal-empty" class="terminal-section">
+            <div class="terminal-welcome">
+              <p>Welcome to the skills terminal! Here are some commands to try:</p>
+              <ul class="welcome-commands">
+                <li><code>help</code> - Show all available commands</li>
+                <li><code>ls skills</code> - List all skill categories</li>
+                <li><code>show frontend</code> - Display frontend skills</li>
+                <li><code>show backend</code> - Display backend skills</li>
+                <li><code>show tools</code> - Display tools & technologies</li>
+              </ul>
+            </div>
+          </div>
+          
           <!-- Help section -->
-          <div id="terminal-help" class="terminal-section">
+          <div id="terminal-help" class="terminal-section" style="display: none;">
             <div class="terminal-line">
               <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">help</span>
             </div>
@@ -82,6 +111,7 @@ const skills = {
               <div class="skills-categories">
                 <p>📁 frontend</p>
                 <p>📁 backend</p>
+                <p>📁 design</p>
                 <p>📁 tools</p>
                 <p class="terminal-tip">Use 'show [category]' to view skills in each category</p>
               </div>
@@ -114,6 +144,23 @@ const skills = {
               <p class="output-title">Backend Skills:</p>
               <div class="skills-grid">
                 {skills.backend.map((skill, index) => (
+                  <div class="skill-item" style={`animation-delay: ${index * 50}ms`}>
+                    <span class="terminal-prompt">→</span> {skill}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Design skills section -->
+          <div id="terminal-design" class="terminal-section" style="display: none;">
+            <div class="terminal-line">
+              <span class="terminal-prompt">user@portfolio:~$</span> <span class="terminal-command">show design</span>
+            </div>
+            <div class="terminal-output">
+              <p class="output-title">Design Skills:</p>
+              <div class="skills-grid">
+                {skills.design.map((skill, index) => (
                   <div class="skill-item" style={`animation-delay: ${index * 50}ms`}>
                     <span class="terminal-prompt">→</span> {skill}
                   </div>
@@ -184,41 +231,6 @@ const skills = {
           duration: 800
         }, '-=600');
         
-        // Terminal typing effect
-        anime.timeline({
-          easing: 'easeOutExpo',
-          delay: 1000
-        })
-        .add({
-          targets: '.js-terminal-category',
-          opacity: [0, 1],
-          duration: 300
-        })
-        .add({
-          targets: '.js-terminal-frontend',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500')
-        .add({
-          targets: '.js-terminal-backend',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500')
-        .add({
-          targets: '.js-terminal-design',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500')
-        .add({
-          targets: '.js-terminal-tools',
-          opacity: [0, 1],
-          delay: anime.stagger(100),
-          duration: 300
-        }, '+=500');
-        
         observerAbout.disconnect();
       }
     });
@@ -232,15 +244,20 @@ const skills = {
     
     const terminalInput = document.getElementById('terminal-input');
     const terminalForm = document.getElementById('terminal-form');
+    const emptySection = document.getElementById('terminal-empty');
     const helpSection = document.getElementById('terminal-help');
     const skillsListSection = document.getElementById('terminal-skills-list');
     const frontendSection = document.getElementById('terminal-frontend');
     const backendSection = document.getElementById('terminal-backend');
+    const designSection = document.getElementById('terminal-design');
     const toolsSection = document.getElementById('terminal-tools');
-    const outputSections = [helpSection, skillsListSection, frontendSection, backendSection, toolsSection];
+    const outputSections = [emptySection, helpSection, skillsListSection, frontendSection, backendSection, designSection, toolsSection];
     
-    // Initially show the help section
-    helpSection.style.display = 'block';
+    // Terminal tabs
+    const terminalTabs = document.querySelectorAll('.terminal-tab');
+    
+    // Initially show the empty section
+    emptySection.style.display = 'block';
 
     // Function to execute a command
     function executeCommand(command) {
@@ -249,32 +266,52 @@ const skills = {
         section.style.display = 'none';
       });
       
+      // Remove active class from all tabs
+      terminalTabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
       // Process command
       if (command === 'help') {
         helpSection.style.display = 'block';
       } else if (command === 'ls skills') {
         skillsListSection.style.display = 'block';
+        document.querySelector('[data-command="ls skills"]').classList.add('active');
       } else if (command === 'show frontend') {
         frontendSection.style.display = 'block';
+        document.querySelector('[data-command="show frontend"]').classList.add('active');
       } else if (command === 'show backend') {
         backendSection.style.display = 'block';
+        document.querySelector('[data-command="show backend"]').classList.add('active');
+      } else if (command === 'show design') {
+        designSection.style.display = 'block';
       } else if (command === 'show tools') {
         toolsSection.style.display = 'block';
+        document.querySelector('[data-command="show tools"]').classList.add('active');
       } else if (command === 'clear') {
-        // Do nothing, all sections are already hidden
+        emptySection.style.display = 'block';
       } else {
-        // If invalid command, show help
-        helpSection.style.display = 'block';
+        // If invalid command, show error in empty section
+        emptySection.style.display = 'block';
         const commandNotFound = document.createElement('p');
         commandNotFound.className = 'terminal-error';
         commandNotFound.textContent = `Command not found: ${command}`;
-        helpSection.prepend(commandNotFound);
+        emptySection.querySelector('.terminal-welcome').appendChild(commandNotFound);
         
         // Remove the error message after 3 seconds
         setTimeout(() => {
           commandNotFound.remove();
         }, 3000);
       }
+      
+      // Animate the displayed section
+      anime({
+        targets: '.terminal-section:not([style*="display: none"]) .terminal-line, .terminal-section:not([style*="display: none"]) .terminal-output',
+        opacity: [0, 1],
+        translateY: [10, 0],
+        duration: 300,
+        easing: 'easeOutQuad'
+      });
     }
 
     // Handle command submission from form input
@@ -283,6 +320,22 @@ const skills = {
       const command = terminalInput.value.trim().toLowerCase();
       terminalInput.value = '';
       executeCommand(command);
+    });
+    
+    // Set up terminal tabs
+    terminalTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const command = tab.dataset.command;
+        executeCommand(command);
+        
+        // Update terminal input to show command
+        terminalInput.value = command;
+        
+        // Clear input after a brief delay
+        setTimeout(() => {
+          terminalInput.value = '';
+        }, 1000);
+      });
     });
     
     // Set up run command buttons
@@ -458,6 +511,35 @@ const skills = {
   .terminal-title {
     font-size: var(--fs-xs);
     color: var(--color-text-muted);
+    margin-right: var(--space-md);
+  }
+  
+  .terminal-tabs {
+    display: flex;
+    gap: var(--space-xs);
+    margin-left: auto;
+  }
+  
+  .terminal-tab {
+    background-color: rgba(58, 134, 255, 0.1);
+    border: none;
+    border-radius: 4px;
+    color: var(--color-text-muted);
+    font-size: var(--fs-xs);
+    padding: 4px 8px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  
+  .terminal-tab:hover {
+    background-color: rgba(58, 134, 255, 0.2);
+    color: var(--color-text);
+  }
+  
+  .terminal-tab.active {
+    background-color: rgba(58, 134, 255, 0.3);
+    color: var(--color-accent);
   }
   
   .terminal-body {
@@ -472,6 +554,30 @@ const skills = {
     margin-bottom: var(--space-md);
     border-bottom: 1px solid rgba(58, 134, 255, 0.1);
     padding-bottom: var(--space-sm);
+  }
+  
+  .terminal-welcome {
+    color: var(--color-text-muted);
+    padding: var(--space-sm);
+    border-radius: 4px;
+    background-color: rgba(58, 134, 255, 0.05);
+  }
+  
+  .welcome-commands {
+    list-style: none;
+    padding-left: var(--space-md);
+    margin-top: var(--space-sm);
+  }
+  
+  .welcome-commands li {
+    margin-bottom: var(--space-xs);
+  }
+  
+  .welcome-commands code {
+    color: #50FA7B;
+    background-color: rgba(80, 250, 123, 0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
   }
   
   .terminal-line {
@@ -521,7 +627,7 @@ const skills = {
   
   .command-desc {
     color: var(--color-text-muted);
-    flex: 1;
+    flex:.1;
   }
   
   .run-command-btn {
@@ -609,12 +715,47 @@ const skills = {
   
   /* Responsive styles */
   @media (max-width: 768px) {
+    .about-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .about-image-container {
+      grid-row: 1;
+      margin-bottom: var(--space-md);
+    }
+    
     .skills-grid {
       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     }
     
     .terminal-input {
       width: 60%;
+    }
+    
+    .terminal-tabs {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: var(--space-xxs);
+      max-width: 60%;
+    }
+    
+    .terminal-tab {
+      white-space: nowrap;
+      padding: 3px 6px;
+      font-size: calc(var(--fs-xs) - 1px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .terminal-header {
+      flex-wrap: wrap;
+    }
+    
+    .terminal-tabs {
+      margin-top: var(--space-xs);
+      margin-left: var(--space-sm);
+      max-width: 100%;
+      width: 100%;
     }
   }
 </style> 
