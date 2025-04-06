@@ -448,27 +448,45 @@ const allTechnologies = [...new Set(
   }
   
   .featured-project {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    display: flex;
+    flex-direction: row;
     align-items: center;
     position: relative;
+    gap: var(--space-lg);
+    padding: var(--space-md);
+    border-radius: 12px;
+    transition: all var(--transition-normal);
+    background-color: rgba(18, 26, 41, 0.3);
+    border: 1px solid rgba(58, 134, 255, 0.05);
+  }
+  
+  .featured-project:hover {
+    background-color: rgba(18, 26, 41, 0.6);
+    border-color: rgba(58, 134, 255, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .featured-project:nth-child(odd) {
+    flex-direction: row;
+  }
+  
+  .featured-project:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+  
+  .project-content {
+    flex: 1;
+    position: relative;
+    z-index: 2;
   }
   
   .featured-project:nth-child(odd) .project-content {
-    grid-column: 1 / 7;
     text-align: left;
-    z-index: 2;
-  }
-  
-  .featured-project:nth-child(odd) .project-image {
-    grid-column: 7 / -1;
-    z-index: 1;
   }
   
   .featured-project:nth-child(even) .project-content {
-    grid-column: 7 / -1;
     text-align: right;
-    z-index: 2;
   }
   
   .featured-project:nth-child(even) .project-tech-list {
@@ -479,14 +497,27 @@ const allTechnologies = [...new Set(
     justify-content: flex-end;
   }
   
-  .featured-project:nth-child(even) .project-image {
-    grid-column: 1 / 7;
+  .project-image {
+    flex: 1;
+    position: relative;
     z-index: 1;
   }
   
-  .project-content {
-    position: relative;
+  .project-description {
     padding: var(--space-md);
+    background-color: var(--color-background-alt);
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: var(--space-md);
+    border: 1px solid rgba(58, 134, 255, 0.1);
+    transition: all var(--transition-normal);
+  }
+  
+  .featured-project:hover .project-description {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+    border-color: rgba(58, 134, 255, 0.2);
   }
   
   .project-overline {
@@ -501,21 +532,6 @@ const allTechnologies = [...new Set(
     color: var(--color-text-bright);
     font-size: var(--fs-lg);
     margin: 0 0 var(--space-md) 0;
-  }
-  
-  .project-description {
-    padding: var(--space-md);
-    background-color: var(--color-background-alt);
-    color: var(--color-text-muted);
-    font-size: var(--fs-sm);
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    margin-bottom: var(--space-md);
-  }
-  
-  .project-description p {
-    margin: 0;
-    line-height: 1.6;
   }
   
   .project-tech-list {
@@ -552,12 +568,6 @@ const allTechnologies = [...new Set(
   .project-link svg {
     width: 20px;
     height: 20px;
-  }
-  
-  .project-image {
-    grid-column: 6 / -1;
-    position: relative;
-    z-index: 1;
   }
   
   .project-image-wrapper {
@@ -754,37 +764,40 @@ const allTechnologies = [...new Set(
   
   /* Improved responsive styles */
   @media (max-width: 992px) {
-    .featured-project .project-content,
-    .featured-project:nth-child(odd) .project-content,
-    .featured-project:nth-child(even) .project-content {
-      grid-column: 1 / 8;
+    .featured-project,
+    .featured-project:nth-child(odd),
+    .featured-project:nth-child(even) {
+      flex-direction: column;
+      padding: var(--space-sm);
+      gap: var(--space-md);
+    }
+    
+    .featured-project:nth-child(even) .project-content,
+    .featured-project:nth-child(odd) .project-content {
       text-align: left;
-      padding: var(--space-md);
-      background-color: rgba(10, 14, 23, 0.85);
-      backdrop-filter: blur(5px);
-      border-radius: 8px;
-      margin: var(--space-md);
-      z-index: 5;
+      order: 2;
+      width: 100%;
+    }
+    
+    .featured-project:nth-child(even) .project-tech-list {
+      justify-content: flex-start;
+    }
+    
+    .featured-project:nth-child(even) .project-links {
+      justify-content: flex-start;
     }
     
     .featured-project .project-image,
     .featured-project:nth-child(odd) .project-image,
     .featured-project:nth-child(even) .project-image {
-      grid-column: 1 / -1;
-      opacity: 1;
-      position: relative;
-      height: 100%;
       width: 100%;
+      order: 1;
     }
     
     .project-description {
-      background-color: transparent;
-      box-shadow: none;
-      padding: 0;
-    }
-    
-    .featured-project {
-      display: block;
+      background-color: var(--color-background-alt);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      padding: var(--space-md);
     }
   }
   
