@@ -781,4 +781,75 @@
 </style>
 
 <!-- Load particles.js from CDN -->
-<script is:inline src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script> 
+<script is:inline src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<!-- Custom cursor implementation -->
+<div class="cursor-dot"></div>
+<div class="cursor-dot-outline"></div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Custom cursor implementation
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-dot-outline');
+    
+    if (cursorDot && cursorOutline && window.innerWidth > 768) {
+      window.addEventListener('mousemove', (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
+        
+        // Dot position with no delay
+        cursorDot.style.left = posX + 'px';
+        cursorDot.style.top = posY + 'px';
+        
+        // Outline follows with slight delay (more smoothly)
+        cursorOutline.style.left = posX + 'px';
+        cursorOutline.style.top = posY + 'px';
+        
+        // Show the cursor elements once we have position
+        if (cursorDot.style.opacity === '0' || cursorDot.style.opacity === '') {
+          cursorDot.style.opacity = '1';
+          cursorOutline.style.opacity = '1';
+        }
+      });
+      
+      // Handle cursor on links and buttons
+      const handleLinks = () => {
+        const links = document.querySelectorAll('a, button, input, textarea, [role="button"]');
+        
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => {
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+            cursorOutline.style.backgroundColor = 'rgba(58, 134, 255, 0.2)';
+          });
+          
+          link.addEventListener('mouseleave', () => {
+            cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursorOutline.style.backgroundColor = 'rgba(58, 134, 255, 0.1)';
+          });
+        });
+      };
+      
+      // Initial handling of links
+      handleLinks();
+      
+      // Re-handle links when content might change 
+      // (for example after filtering projects or loading dynamic content)
+      document.addEventListener('contentchange', handleLinks);
+      
+      // Hide cursor when leaving the window
+      document.addEventListener('mouseleave', () => {
+        cursorDot.style.opacity = '0';
+        cursorOutline.style.opacity = '0';
+      });
+      
+      // Show cursor when entering the window
+      document.addEventListener('mouseenter', () => {
+        cursorDot.style.opacity = '1';
+        cursorOutline.style.opacity = '1';
+      });
+    }
+  });
+</script> 
