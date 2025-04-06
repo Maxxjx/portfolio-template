@@ -178,19 +178,27 @@
     position: relative;
     min-height: 100vh;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding-top: 0;
+    padding: 0 var(--space-md);
     overflow: hidden;
+  }
+  
+  .container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    z-index: 2;
   }
   
   /* Blueprint grid styling */
   .blueprint-grid {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 0;
     overflow: hidden;
   }
   
@@ -226,7 +234,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 0;
+    pointer-events: none;
   }
   
   .circle {
@@ -251,33 +260,34 @@
   .circle-1 {
     width: 300px;
     height: 300px;
-    top: 25%;
-    right: 10%;
+    top: 20%;
+    right: 5%;
   }
   
   .circle-2 {
     width: 200px;
     height: 200px;
     bottom: 15%;
-    left: 10%;
+    left: 5%;
   }
   
   .circle-3 {
     width: 150px;
     height: 150px;
     top: 15%;
-    left: 30%;
+    left: 20%;
   }
   
   /* Blueprint labels */
   .blueprint-label {
-    position: absolute;
+    position: fixed;
     display: flex;
     align-items: center;
     font-family: 'Courier New', monospace;
     font-size: 12px;
     color: rgba(58, 134, 255, 0.8);
-    z-index: 2;
+    z-index: 1;
+    pointer-events: none;
   }
   
   .blueprint-label.top-left {
@@ -339,7 +349,7 @@
   .hero-content {
     max-width: 800px;
     position: relative;
-    z-index: 1;
+    z-index: 3;
   }
   
   .hero-greeting {
@@ -465,10 +475,21 @@
   }
   
   /* Responsive styles */
+  @media (max-width: 1200px) {
+    .hero-content {
+      max-width: 700px;
+    }
+  }
+  
   @media (max-width: 768px) {
+    .hero {
+      padding: 0 var(--space-sm);
+    }
+    
     .hero-content {
       text-align: left;
-      padding: 0 var(--space-sm);
+      width: 100%;
+      max-width: 100%;
     }
     
     .scroll-indicator {
@@ -496,6 +517,32 @@
     
     .circle-2 {
       left: -50px;
+    }
+    
+    .hero-greeting, .hero-name, .hero-headline, .hero-description {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .spec-detail span {
+      font-size: 11px;
+    }
+    
+    .hero-greeting {
+      font-size: var(--fs-sm);
+    }
+    
+    .hero-name {
+      font-size: clamp(var(--fs-lg), 8vw, var(--fs-xl));
+    }
+    
+    .hero-headline {
+      font-size: clamp(var(--fs-md), 5vw, var(--fs-lg));
+    }
+    
+    .hero-description {
+      font-size: var(--fs-sm);
     }
   }
 </style>
