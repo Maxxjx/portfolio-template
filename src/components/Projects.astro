@@ -227,6 +227,43 @@ const allTechnologies = [...new Set(
       observerProjects.observe(projectsSection);
     }
     
+    // Project image parallax effect
+    const projectImages = document.querySelectorAll('.project-image-wrapper');
+    
+    projectImages.forEach(image => {
+      const parent = image.closest('.featured-project');
+      
+      parent.addEventListener('mousemove', (e) => {
+        const { left, top, width, height } = parent.getBoundingClientRect();
+        const x = (e.clientX - left) / width - 0.5;  // -0.5 to 0.5
+        const y = (e.clientY - top) / height - 0.5;  // -0.5 to 0.5
+        
+        // Apply subtle movement to the image wrapper
+        image.style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${y * -5}deg) scale3d(1.05, 1.05, 1.05)`;
+        
+        // Move the image slightly within the wrapper for depth
+        const img = image.querySelector('img');
+        if (img) {
+          img.style.transform = `translateX(${x * 10}px) translateY(${y * 10}px)`;
+        }
+      });
+      
+      parent.addEventListener('mouseleave', () => {
+        // Reset transforms when mouse leaves
+        image.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)';
+        
+        const img = image.querySelector('img');
+        if (img) {
+          img.style.transform = 'translateX(0) translateY(0)';
+        }
+      });
+      
+      parent.addEventListener('mouseenter', () => {
+        // Add initial transform
+        image.style.transform = 'perspective(1000px) scale3d(1.02, 1.02, 1.02)';
+      });
+    });
+    
     // Project filtering functionality
     const filterButtons = document.querySelectorAll('.filter-button');
     const featuredProjects = document.querySelectorAll('.featured-project');
@@ -529,6 +566,9 @@ const allTechnologies = [...new Set(
     border-radius: 8px;
     height: 0;
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    will-change: transform;
   }
   
   .project-image-wrapper img {
@@ -540,6 +580,7 @@ const allTechnologies = [...new Set(
     object-fit: cover;
     filter: grayscale(100%) contrast(1) brightness(70%);
     transition: all var(--transition-normal);
+    transform-origin: center;
   }
   
   .project-image-wrapper::before {
@@ -556,7 +597,6 @@ const allTechnologies = [...new Set(
   
   .featured-project:hover .project-image-wrapper img {
     filter: grayscale(0) contrast(1) brightness(100%);
-    transform: scale(1.05);
   }
   
   .featured-project:hover .project-image-wrapper::before {
