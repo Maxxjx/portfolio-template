@@ -1,17 +1,32 @@
 <section id="hero" class="hero">
+  <div class="stars-container">
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+  </div>
+  
   <div class="blueprint-grid">
     <div class="grid-horizontal"></div>
     <div class="grid-vertical"></div>
   </div>
+  
   <div class="blueprint-circles">
-    <div class="circle circle-1"></div>
-    <div class="circle circle-2"></div>
-    <div class="circle circle-3"></div>
+    <div class="circle circle-1 animate-float"></div>
+    <div class="circle circle-2 animate-float" style="animation-delay: 0.5s;"></div>
+    <div class="circle circle-3 animate-float" style="animation-delay: 1s;"></div>
+    <div class="circle circle-4 animate-pulse" style="animation-delay: 0.7s;"></div>
   </div>
+  
+  <div class="glowing-lines">
+    <div class="line line-1"></div>
+    <div class="line line-2"></div>
+    <div class="line line-3"></div>
+  </div>
+  
   <div class="container">
     <div class="hero-content">
       <div class="blueprint-label top-left">
-        <span class="blueprint-text">PORTFOLIO_V2.0</span>
+        <span class="blueprint-text animate-glow">PORTFOLIO_V2.0</span>
         <div class="blueprint-line horizontal"></div>
       </div>
       <p class="hero-greeting js-animate">Hello, I am</p>
@@ -22,9 +37,9 @@
       <div class="blueprint-specs">
         <div class="spec-line"></div>
         <div class="spec-detail">
-          <span>FRONTEND DEVELOPER</span>
-          <span>CREATIVE CODER</span>
-          <span>UI SPECIALIST</span>
+          <span class="animate-slide-right delay-100">FRONTEND DEVELOPER</span>
+          <span class="animate-slide-right delay-300">CREATIVE CODER</span>
+          <span class="animate-slide-right delay-500">UI SPECIALIST</span>
         </div>
       </div>
       <h2 class="hero-headline js-animate">I craft digital experiences.</h2>
@@ -34,15 +49,26 @@
         accessibility and thoughtful interactions.
       </p>
       <div class="hero-cta js-animate">
-        <a href="#projects" class="button primary">Explore My Work</a>
+        <a href="#projects" class="button primary animate-pulse">Explore My Work</a>
       </div>
     </div>
   </div>
+  
+  <div class="floating-elements">
+    <div class="floating-element el-1">&lt;/&gt;</div>
+    <div class="floating-element el-2">{ }</div>
+    <div class="floating-element el-3">&lt;div&gt;</div>
+    <div class="floating-element el-4">function()</div>
+    <div class="floating-element el-5">const</div>
+    <div class="floating-element el-6">return</div>
+  </div>
+  
   <div class="blueprint-label bottom-right">
     <div class="blueprint-line vertical"></div>
-    <span class="blueprint-text">REV_2023</span>
+    <span class="blueprint-text animate-glow" style="animation-delay: 0.5s;">REV_2023</span>
   </div>
-  <div class="scroll-indicator">
+  
+  <div class="scroll-indicator animate-bounce">
     <div class="mouse">
       <div class="wheel"></div>
     </div>
@@ -98,13 +124,39 @@
       delay: 1300
     });
     
+    // Animate the floating elements
     anime({
-      targets: '.spec-detail span',
-      opacity: [0, 1],
-      translateX: [10, 0],
-      delay: anime.stagger(200, {start: 1500}),
-      duration: 800
+      targets: '.floating-elements .floating-element',
+      opacity: [0, 0.7],
+      scale: [0.5, 1],
+      delay: anime.stagger(200, {start: 700}),
+      duration: 1000,
+      easing: 'easeOutElastic(1, .6)'
     });
+    
+    // Animate glowing lines
+    anime.timeline({
+      easing: 'easeOutSine',
+      delay: 1000
+    })
+    .add({
+      targets: '.line-1',
+      width: [0, '100%'],
+      opacity: [0, 1],
+      duration: 1500
+    })
+    .add({
+      targets: '.line-2',
+      width: [0, '60%'],
+      opacity: [0, 0.7],
+      duration: 1000
+    }, '-=1000')
+    .add({
+      targets: '.line-3',
+      width: [0, '30%'],
+      opacity: [0, 0.5],
+      duration: 800
+    }, '-=800');
     
     // Hero section animations
     const heroElements = document.querySelectorAll('.js-animate');
@@ -148,25 +200,59 @@
       // Move blueprint circles slightly for parallax effect
       anime({
         targets: '.circle-1',
-        translateX: x * 20,
-        translateY: y * 20,
+        translateX: x * 30,
+        translateY: y * 30,
         duration: 800,
         easing: 'easeOutQuad'
       });
       
       anime({
         targets: '.circle-2',
-        translateX: x * -15,
-        translateY: y * -15,
+        translateX: x * -25,
+        translateY: y * -25,
         duration: 800,
         easing: 'easeOutQuad'
       });
       
       anime({
         targets: '.circle-3',
-        translateX: x * 10,
-        translateY: y * -10,
+        translateX: x * 20,
+        translateY: y * -20,
         duration: 800,
+        easing: 'easeOutQuad'
+      });
+      
+      anime({
+        targets: '.circle-4',
+        translateX: x * -15,
+        translateY: y * 15,
+        duration: 800,
+        easing: 'easeOutQuad'
+      });
+      
+      // Move floating elements for deeper parallax
+      anime({
+        targets: '.floating-elements .floating-element',
+        translateX: function(el, i) {
+          return x * (i + 1) * 10 * (i % 2 === 0 ? 1 : -1);
+        },
+        translateY: function(el, i) {
+          return y * (i + 1) * 10 * (i % 2 === 0 ? -1 : 1);
+        },
+        duration: 400,
+        easing: 'easeOutQuad'
+      });
+      
+      // Move glowing lines with cursor
+      anime({
+        targets: '.glowing-lines .line',
+        translateX: function(el, i) {
+          return x * (i + 1) * 5 * (i % 2 === 0 ? -1 : 1);
+        },
+        translateY: function(el, i) {
+          return y * (i + 1) * 5;
+        },
+        duration: 1000,
         easing: 'easeOutQuad'
       });
     });
@@ -188,7 +274,58 @@
     position: relative;
     width: 100%;
     max-width: 1200px;
-    z-index: 2;
+    z-index: 5;
+  }
+  
+  /* Stars background */
+  .stars-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .stars, .stars2, .stars3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(1px 1px at 25% 5%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)),
+      radial-gradient(1px 1px at 50% 15%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)),
+      radial-gradient(1px 1px at 75% 25%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)),
+      radial-gradient(2px 2px at 15% 45%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)),
+      radial-gradient(2px 2px at 35% 65%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)),
+      radial-gradient(2px 2px at 55% 85%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)),
+      radial-gradient(1px 1px at 85% 35%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+  
+  .stars {
+    animation: stars-move 100s linear infinite;
+    opacity: 0.5;
+  }
+  
+  .stars2 {
+    background-size: 300px 300px;
+    animation: stars-move 150s linear infinite;
+    opacity: 0.3;
+  }
+  
+  .stars3 {
+    background-size: 400px 400px;
+    animation: stars-move 200s linear infinite;
+    opacity: 0.2;
+  }
+  
+  @keyframes stars-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 400px 400px; }
   }
   
   /* Blueprint grid styling */
@@ -198,7 +335,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 1;
     overflow: hidden;
   }
   
@@ -227,6 +364,47 @@
     );
   }
   
+  /* Glowing lines */
+  .glowing-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  .line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      rgba(58, 134, 255, 0) 0%, 
+      rgba(58, 134, 255, 0.8) 50%, 
+      rgba(58, 134, 255, 0) 100%
+    );
+    box-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
+    opacity: 0;
+  }
+  
+  .line-1 {
+    top: 30%;
+    left: 0;
+    width: 100%;
+  }
+  
+  .line-2 {
+    top: 60%;
+    right: 0;
+    width: 60%;
+  }
+  
+  .line-3 {
+    top: 80%;
+    left: 20%;
+    width: 30%;
+  }
+  
   /* Blueprint circles */
   .blueprint-circles {
     position: absolute;
@@ -234,7 +412,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 2;
     pointer-events: none;
   }
   
@@ -243,6 +421,7 @@
     border-radius: 50%;
     border: 1px solid rgba(58, 134, 255, 0.3);
     opacity: 0.5;
+    box-shadow: 0 0 20px rgba(58, 134, 255, 0.1);
   }
   
   .circle::before {
@@ -255,6 +434,7 @@
     height: 5px;
     background-color: rgba(58, 134, 255, 0.5);
     border-radius: 50%;
+    box-shadow: 0 0 10px rgba(58, 134, 255, 0.8);
   }
   
   .circle-1 {
@@ -278,6 +458,40 @@
     left: 20%;
   }
   
+  .circle-4 {
+    width: 100px;
+    height: 100px;
+    bottom: 30%;
+    right: 15%;
+  }
+  
+  /* Floating Elements */
+  .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+  }
+  
+  .floating-element {
+    position: absolute;
+    font-family: var(--font-mono);
+    color: rgba(58, 134, 255, 0.7);
+    opacity: 0;
+    font-size: var(--fs-sm);
+    text-shadow: 0 0 10px rgba(58, 134, 255, 0.5);
+  }
+  
+  .el-1 { top: 15%; left: 15%; }
+  .el-2 { top: 25%; right: 20%; }
+  .el-3 { top: 50%; left: 10%; }
+  .el-4 { top: 65%; right: 15%; }
+  .el-5 { top: 80%; left: 25%; }
+  .el-6 { top: 85%; right: 30%; }
+  
   /* Blueprint labels */
   .blueprint-label {
     position: fixed;
@@ -286,7 +500,7 @@
     font-family: 'Courier New', monospace;
     font-size: 12px;
     color: rgba(58, 134, 255, 0.8);
-    z-index: 1;
+    z-index: 4;
     pointer-events: none;
   }
   
@@ -306,6 +520,7 @@
     background-color: rgba(58, 134, 255, 0.6);
     margin: 0 10px;
     transform-origin: left;
+    box-shadow: 0 0 10px rgba(58, 134, 255, 0.3);
   }
   
   .blueprint-line.vertical {
@@ -317,6 +532,7 @@
   
   .blueprint-text {
     white-space: nowrap;
+    text-shadow: 0 0 8px rgba(58, 134, 255, 0.5);
   }
   
   /* Specification measurements */
@@ -331,6 +547,7 @@
     height: 1px;
     background-color: rgba(58, 134, 255, 0.5);
     margin-right: var(--space-sm);
+    box-shadow: 0 0 8px rgba(58, 134, 255, 0.3);
   }
   
   .spec-detail {
@@ -343,13 +560,14 @@
     font-size: var(--fs-xs);
     color: rgba(58, 134, 255, 0.8);
     white-space: nowrap;
+    text-shadow: 0 0 8px rgba(58, 134, 255, 0.4);
   }
   
   /* Regular hero content styling */
   .hero-content {
     max-width: 800px;
     position: relative;
-    z-index: 3;
+    z-index: 6;
   }
   
   .hero-greeting {
@@ -360,6 +578,7 @@
     font-weight: var(--fw-medium);
     letter-spacing: 1px;
     text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(58, 134, 255, 0.5);
   }
   
   .hero-name {
@@ -379,6 +598,7 @@
     height: 3px;
     width: 0;
     background: linear-gradient(90deg, var(--color-accent), transparent);
+    box-shadow: 0 0 15px rgba(58, 134, 255, 0.7);
   }
   
   .hero-headline {
@@ -426,7 +646,7 @@
   }
   
   .button.primary:hover {
-    box-shadow: 0 6px 20px rgba(58, 134, 255, 0.6);
+    box-shadow: 0 6px 20px rgba(58, 134, 255, 0.6), 0 0 20px rgba(58, 134, 255, 0.4);
     transform: translateY(-3px);
     opacity: 1;
   }
@@ -441,6 +661,7 @@
     align-items: center;
     opacity: 0.7;
     transition: opacity var(--transition-normal);
+    z-index: 6;
   }
   
   .scroll-indicator:hover {
@@ -455,6 +676,7 @@
     position: relative;
     display: flex;
     justify-content: center;
+    box-shadow: 0 0 15px rgba(58, 134, 255, 0.3);
   }
   
   .wheel {
@@ -464,6 +686,7 @@
     border-radius: 2px;
     position: absolute;
     top: 8px;
+    box-shadow: 0 0 5px rgba(58, 134, 255, 0.5);
   }
   
   .scroll-text {
@@ -472,12 +695,17 @@
     margin-top: 0.5rem;
     letter-spacing: 2px;
     text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(58, 134, 255, 0.3);
   }
   
   /* Responsive styles */
   @media (max-width: 1200px) {
     .hero-content {
       max-width: 700px;
+    }
+    
+    .floating-element {
+      font-size: var(--fs-xs);
     }
   }
   
@@ -519,8 +747,16 @@
       left: -50px;
     }
     
+    .floating-elements {
+      display: none;
+    }
+    
     .hero-greeting, .hero-name, .hero-headline, .hero-description {
       max-width: 100%;
+    }
+    
+    .stars, .stars2, .stars3 {
+      background-size: 150px 150px;
     }
   }
   
@@ -543,6 +779,10 @@
     
     .hero-description {
       font-size: var(--fs-sm);
+    }
+    
+    .glowing-lines {
+      opacity: 0.5;
     }
   }
 </style>
