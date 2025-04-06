@@ -418,35 +418,38 @@ const allTechnologies = [...new Set(
   }
   
   .featured-project:nth-child(odd) .project-content {
-    grid-column: 7 / -1;
-    text-align: right;
-  }
-  
-  .featured-project:nth-child(odd) .project-tech-list {
-    justify-content: flex-end;
-  }
-  
-  .featured-project:nth-child(odd) .project-links {
-    justify-content: flex-end;
-  }
-  
-  .featured-project:nth-child(even) .project-content {
     grid-column: 1 / 7;
     text-align: left;
+    z-index: 2;
   }
   
   .featured-project:nth-child(odd) .project-image {
-    grid-column: 1 / 8;
+    grid-column: 7 / -1;
+    z-index: 1;
+  }
+  
+  .featured-project:nth-child(even) .project-content {
+    grid-column: 7 / -1;
+    text-align: right;
+    z-index: 2;
+  }
+  
+  .featured-project:nth-child(even) .project-tech-list {
+    justify-content: flex-end;
+  }
+  
+  .featured-project:nth-child(even) .project-links {
+    justify-content: flex-end;
   }
   
   .featured-project:nth-child(even) .project-image {
-    grid-column: 6 / -1;
+    grid-column: 1 / 7;
+    z-index: 1;
   }
   
   .project-content {
-    grid-column: 1 / 7;
     position: relative;
-    z-index: 2;
+    padding: var(--space-md);
   }
   
   .project-overline {
@@ -714,9 +717,13 @@ const allTechnologies = [...new Set(
     .featured-project .project-content,
     .featured-project:nth-child(odd) .project-content,
     .featured-project:nth-child(even) .project-content {
-      grid-column: 1 / -1;
+      grid-column: 1 / 8;
       text-align: left;
       padding: var(--space-md);
+      background-color: rgba(10, 14, 23, 0.85);
+      backdrop-filter: blur(5px);
+      border-radius: 8px;
+      margin: var(--space-md);
       z-index: 5;
     }
     
@@ -724,18 +731,20 @@ const allTechnologies = [...new Set(
     .featured-project:nth-child(odd) .project-image,
     .featured-project:nth-child(even) .project-image {
       grid-column: 1 / -1;
-      opacity: 0.1;
-      position: absolute;
+      opacity: 1;
+      position: relative;
       height: 100%;
       width: 100%;
-      top: 0;
-      left: 0;
     }
     
     .project-description {
       background-color: transparent;
       box-shadow: none;
       padding: 0;
+    }
+    
+    .featured-project {
+      display: block;
     }
   }
   
