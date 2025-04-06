@@ -7,7 +7,13 @@ const featuredProjects = [
     image: "/projects/ecommerce.jpg",
     github: "#",
     liveLink: "#",
-    featured: true
+    featured: true,
+    themeColors: {
+      primary: "#4361EE",
+      secondary: "#3A0CA3",
+      accent: "#F72585",
+      muted: "#4CC9F0"
+    }
   },
   {
     title: "Portfolio Website Template",
@@ -16,7 +22,13 @@ const featuredProjects = [
     image: "/projects/portfolio.jpg",
     github: "#",
     liveLink: "#",
-    featured: true
+    featured: true,
+    themeColors: {
+      primary: "#3A86FF",
+      secondary: "#5D9DFF",
+      accent: "#00B4D8",
+      muted: "#90E0EF"
+    }
   },
   {
     title: "Task Management Application",
@@ -25,7 +37,13 @@ const featuredProjects = [
     image: "/projects/taskmanager.jpg",
     github: "#",
     liveLink: "#",
-    featured: true
+    featured: true,
+    themeColors: {
+      primary: "#38B000",
+      secondary: "#008000",
+      accent: "#70E000",
+      muted: "#CCFF33"
+    }
   }
 ];
 
@@ -35,42 +53,78 @@ const otherProjects = [
     description: "A weather forecast application that provides current and 5-day weather information based on user location or search.",
     technologies: ["JavaScript", "OpenWeather API", "HTML5", "CSS3"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    themeColors: {
+      primary: "#053C5E",
+      secondary: "#1D3557",
+      accent: "#A8DADC",
+      muted: "#F1FAEE"
+    }
   },
   {
     title: "Blog Platform",
     description: "A full-stack blog platform with user authentication, markdown support, commenting system, and content management.",
     technologies: ["Next.js", "GraphQL", "PostgreSQL", "Tailwind CSS"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    themeColors: {
+      primary: "#7209B7",
+      secondary: "#560BAD",
+      accent: "#B5179E",
+      muted: "#F72585"
+    }
   },
   {
     title: "Browser Extension",
     description: "A productivity browser extension that helps users track time spent on different websites and set limits.",
     technologies: ["JavaScript", "Chrome API", "Local Storage", "CSS3"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    themeColors: {
+      primary: "#FFB703",
+      secondary: "#FB8500",
+      accent: "#FD9E02",
+      muted: "#FFCE70"
+    }
   },
   {
     title: "Fitness Tracker",
     description: "A mobile-friendly workout tracking application with progress visualization, workout plans, and exercise library.",
     technologies: ["React", "Node.js", "Chart.js", "MongoDB"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    themeColors: {
+      primary: "#EF476F",
+      secondary: "#F94144",
+      accent: "#F15BB5",
+      muted: "#F9C0C0"
+    }
   },
   {
     title: "Recipe Finder",
     description: "An application that helps users find recipes based on available ingredients, dietary restrictions, and cooking time.",
     technologies: ["Vue.js", "Spoonacular API", "Vuex", "SCSS"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    themeColors: {
+      primary: "#845EC2",
+      secondary: "#4B4453",
+      accent: "#B39CD0",
+      muted: "#D5CABD"
+    }
   },
   {
     title: "Social Media Dashboard",
     description: "An analytics dashboard that aggregates data from multiple social media platforms into a unified interface.",
     technologies: ["React", "D3.js", "Social Media APIs", "Material UI"],
     github: "#",
-    liveLink: "#"
+    liveLink: "#",
+    themeColors: {
+      primary: "#2A9D8F",
+      secondary: "#264653",
+      accent: "#E9C46A",
+      muted: "#F4A261"
+    }
   }
 ];
 
@@ -99,16 +153,24 @@ const allTechnologies = [...new Set(
     
     <div class="featured-projects">
       {featuredProjects.map((project, index) => (
-        <div class="featured-project js-fade-in" data-technologies={project.technologies.join(',')}>
+        <div class="featured-project js-fade-in" 
+          data-technologies={project.technologies.join(',')}
+          data-theme-colors={JSON.stringify(project.themeColors)}>
           <div class="project-content">
             <p class="project-overline">Featured Project</p>
             <h3 class="project-title">{project.title}</h3>
             <div class="project-description">
               <p>{project.description}</p>
             </div>
+            <div class="project-color-palette">
+              <div class="color-swatch" style={`background-color: ${project.themeColors.primary}`}></div>
+              <div class="color-swatch" style={`background-color: ${project.themeColors.secondary}`}></div>
+              <div class="color-swatch" style={`background-color: ${project.themeColors.accent}`}></div>
+              <div class="color-swatch" style={`background-color: ${project.themeColors.muted}`}></div>
+            </div>
             <ul class="project-tech-list">
               {project.technologies.map((tech) => (
-                <li>{tech}</li>
+                <li class="tech-tag" data-tech={tech}>{tech}</li>
               ))}
             </ul>
             <div class="project-links">
@@ -139,12 +201,20 @@ const allTechnologies = [...new Set(
     
     <div class="project-grid js-fade-in">
       {otherProjects.map((project) => (
-        <div class="project-card" data-technologies={project.technologies.join(',')}>
+        <div class="project-card" 
+          data-technologies={project.technologies.join(',')}
+          data-theme-colors={JSON.stringify(project.themeColors)}>
           <div class="card-header">
             <div class="card-folder-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
               </svg>
+            </div>
+            <div class="project-color-palette small">
+              <div class="color-swatch" style={`background-color: ${project.themeColors.primary}`}></div>
+              <div class="color-swatch" style={`background-color: ${project.themeColors.secondary}`}></div>
+              <div class="color-swatch" style={`background-color: ${project.themeColors.accent}`}></div>
+              <div class="color-swatch" style={`background-color: ${project.themeColors.muted}`}></div>
             </div>
             <div class="card-links">
               <a href={project.github} class="card-link">
@@ -167,7 +237,7 @@ const allTechnologies = [...new Set(
           <p class="card-description">{project.description}</p>
           <ul class="card-tech-list">
             {project.technologies.map((tech) => (
-              <li>{tech}</li>
+              <li class="tech-tag" data-tech={tech}>{tech}</li>
             ))}
           </ul>
         </div>
@@ -362,34 +432,91 @@ const allTechnologies = [...new Set(
       });
     }
     
-    // Enhanced hover effects for project cards
-    projectCards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        anime({
-          targets: card,
-          translateY: -10,
-          boxShadow: '0 15px 30px rgba(0, 0, 0, 0.3)',
-          duration: 300,
-          easing: 'easeOutQuad'
-        });
+    // Enhanced hover effects for project cards with theme colors
+    const projectSection = document.querySelector('.projects');
+    const initialBgColor = getComputedStyle(document.documentElement).getPropertyValue('--color-bg-alt').trim();
+    
+    // Function to handle project hover effects and theme color changes
+    function setupProjectThemeEffects(projects) {
+      projects.forEach(project => {
+        const themeColors = project.getAttribute('data-theme-colors');
+        
+        if (themeColors) {
+          const colors = JSON.parse(themeColors);
+          const techTags = project.querySelectorAll('.tech-tag');
+          
+          // Set technology tag colors based on the project theme
+          techTags.forEach(tag => {
+            tag.style.setProperty('--tag-color', colors.accent);
+          });
+          
+          // Apply hover effects
+          project.addEventListener('mouseenter', () => {
+            // Background color transition for the section
+            projectSection.style.background = `linear-gradient(to bottom, rgba(10, 14, 23, 0.9), rgba(10, 14, 23, 0.97)), 
+                                              radial-gradient(circle at center, ${colors.primary}15 0%, transparent 70%)`;
+            
+            // Enhance project card with theme color
+            if (project.classList.contains('project-card')) {
+              anime({
+                targets: project,
+                translateY: -10,
+                boxShadow: `0 15px 30px rgba(0, 0, 0, 0.3), 0 0 20px ${colors.primary}30`,
+                borderColor: `${colors.primary}50`,
+                duration: 300,
+                easing: 'easeOutQuad'
+              });
+              
+              // Update folder icon color
+              const folderIcon = project.querySelector('.card-folder-icon svg');
+              if (folderIcon) {
+                folderIcon.style.color = colors.primary;
+              }
+            } else {
+              // For featured projects
+              project.style.borderColor = `${colors.primary}50`;
+              project.style.boxShadow = `0 15px 30px rgba(0, 0, 0, 0.3), 0 0 20px ${colors.primary}30`;
+            }
+          });
+          
+          project.addEventListener('mouseleave', () => {
+            // Reset background
+            projectSection.style.background = '';
+            
+            if (project.classList.contains('project-card')) {
+              anime({
+                targets: project,
+                translateY: 0,
+                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
+                borderColor: 'transparent',
+                duration: 300,
+                easing: 'easeOutQuad'
+              });
+              
+              // Reset folder icon color
+              const folderIcon = project.querySelector('.card-folder-icon svg');
+              if (folderIcon) {
+                folderIcon.style.color = 'var(--color-accent)';
+              }
+            } else {
+              // Reset for featured projects
+              project.style.borderColor = 'rgba(58, 134, 255, 0.05)';
+              project.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
+            }
+          });
+        }
       });
-      
-      card.addEventListener('mouseleave', () => {
-        anime({
-          targets: card,
-          translateY: 0,
-          boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
-          duration: 300,
-          easing: 'easeOutQuad'
-        });
-      });
-    });
+    }
+    
+    // Apply theme effects to all projects
+    setupProjectThemeEffects(allProjects);
   });
 </script>
 
 <style>
   .projects {
     margin-top: calc(var(--space-xl) * 1.5);
+    transition: background 0.5s ease-in-out;
   }
   
   .section-title {
@@ -437,6 +564,50 @@ const allTechnologies = [...new Set(
     background-color: rgba(58, 134, 255, 0.2);
     border-color: var(--color-accent);
     color: var(--color-accent);
+  }
+  
+  /* Project color palette */
+  .project-color-palette {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+  }
+  
+  .project-color-palette.small {
+    gap: 3px;
+  }
+  
+  .color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform var(--transition-fast);
+  }
+  
+  .color-swatch:hover {
+    transform: scale(1.2);
+  }
+  
+  .project-color-palette.small .color-swatch {
+    width: 12px;
+    height: 12px;
+  }
+  
+  /* Tech tags with dynamic colors */
+  .tech-tag {
+    --tag-color: var(--color-accent);
+    position: relative;
+    padding-left: 18px;
+  }
+  
+  .tech-tag::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--tag-color);
+    font-size: 1.2em;
   }
   
   /* Featured Projects */
@@ -494,6 +665,10 @@ const allTechnologies = [...new Set(
   }
   
   .featured-project:nth-child(even) .project-links {
+    justify-content: flex-end;
+  }
+  
+  .featured-project:nth-child(even) .project-color-palette {
     justify-content: flex-end;
   }
   
